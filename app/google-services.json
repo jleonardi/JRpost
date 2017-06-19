@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "670680901299",
+    "firebase_url": "https://jrpost-ab05d.firebaseio.com",
+    "project_id": "jrpost-ab05d",
+    "storage_bucket": "jrpost-ab05d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670680901299:android:3c977078d1f61be6",
+        "android_client_info": {
+          "package_name": "edu.bluejack16_2.jrpost"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670680901299-808q5tnbi503npafehhb7ibsljnclkeu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDSad81ludOjMOf6EDIOUB2lu2zU_x_9rQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
