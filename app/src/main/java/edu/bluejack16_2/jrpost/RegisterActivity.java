@@ -40,6 +40,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         if(view==btnLogin)
         {
+            UserController.getInstance().getUser("1", "Nani", this);
 
         }
         else if(view==btnRegister)
