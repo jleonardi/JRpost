@@ -1,7 +1,9 @@
 package edu.bluejack16_2.jrpost;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -16,12 +18,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import edu.bluejack16_2.jrpost.models.Session;
+import edu.bluejack16_2.jrpost.models.User;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     NavigationView navigationView=null;
     Toolbar toolbar=null;
+    User currentUser;
+    SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +68,16 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView lblName = (TextView) headerView.findViewById(R.id.lblName);
         TextView lblUsername = (TextView) headerView.findViewById(R.id.lblUsername);
-        lblName.setText(Session.name);
-        lblUsername.setText(Session.username);
+//        lblName.setText(Session.name);
+//        lblUsername.setText(Session.username);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        String name = prefs.getString("name", "defaultStringIfNothingFound");
+        String username = prefs.getString("username", "defaultStringIfNothingFound");
+
+        lblName.setText(name);
+        lblUsername.setText(username);
+
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -95,6 +108,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             Session.name="";
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
         }

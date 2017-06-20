@@ -1,6 +1,8 @@
 package edu.bluejack16_2.jrpost.controllers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,6 +20,8 @@ import edu.bluejack16_2.jrpost.MainActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.User;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by User on 6/20/2017.
@@ -41,14 +45,17 @@ public class UserController {
     }
 
     public Boolean addNewUser(String username, String name, String password) {
-        User newUser = new User(username, name, password);
+
+        String newUserId = mDatabase.push().getKey();
+        User newUser = new User(newUserId, username, name, password);
         /*
         * .child itu kayak add folder di databasenya
         * push itu untuk kasih unique id
         * kalau .child("users").push.setValue
         * nanti ngasilin dari root -> users -> unique id -> data data usernya
         * */
-        mDatabase.child("users").push().setValue(newUser);
+        //mDatabase.child("users").push().setValue(newUser);
+        mDatabase.child(newUserId).setValue(newUser);
         return true;
     }
 
@@ -59,16 +66,25 @@ public class UserController {
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue().toString();
                     String username = ds.child("username").getValue().toString();
                     String password = ds.child("password").getValue().toString();
+                    String userId = ds.child("userId").getValue().toString();
 
                     if(!password.equals(login_password))
                         break;
 
                     Session.name=name;
                     Session.username=username;
+                    SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("username", username);
+                    editor.putString("name", name);
+                    editor.putString("userId", userId);
+                    editor.putString("password", userId);
+                    editor.commit();
                     Intent intent = new Intent(activity.getApplicationContext(),MainActivity.class);
                     activity.startActivity(intent);
                     Toast.makeText(activity, "Welcome, "+name, Toast.LENGTH_SHORT).show();
