@@ -11,7 +11,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="83dp"
+        android:layout_marginTop="5dp"
         android:text="Username"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
@@ -44,7 +44,7 @@
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtPassword"
         android:layout_centerHorizontal="true"
@@ -53,17 +53,24 @@
 
     <Button
         android:id="@+id/btnRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/btnLogin"
+        android:text="Register"
         android:layout_below="@+id/btnLogin"
-        android:text="Register" />
+        android:layout_alignStart="@+id/btnLogin" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/fb_login_bn"
-        android:layout_width="wrap_content"
+        android:layout_width="195dp"
+        android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
         android:layout_below="@+id/btnRegister"
         android:layout_centerHorizontal="true"></com.facebook.login.widget.LoginButton>
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="196dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fb_login_bn"
+        android:layout_centerHorizontal="true"></com.google.android.gms.common.SignInButton>
 </RelativeLayout>

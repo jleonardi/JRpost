@@ -54,8 +54,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 GraphRequest request = GraphRequest.newMeRequest(
                   loginResult.getAccessToken(),
                         new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                @Override
+                                public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
                                     String email=object.getString("email");
                                     String name=object.getString("name");
