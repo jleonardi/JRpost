@@ -1,6 +1,8 @@
 package edu.bluejack16_2.jrpost;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,7 @@ import java.util.Arrays;
 
 import edu.bluejack16_2.jrpost.controllers.UserController;
 import edu.bluejack16_2.jrpost.models.Session;
+import edu.bluejack16_2.jrpost.models.User;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -34,6 +37,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     Button btnRegister;
     LoginButton btnLoginFb;
     CallbackManager callbackManager;
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +52,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnLoginFb = (LoginButton) findViewById(R.id.fb_login_bn);
         btnLoginFb.setReadPermissions(Arrays.asList("public_profile","email","user_birthday","user_friends"));
         callbackManager = CallbackManager.Factory.create();
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if(prefs.getString("username", null) != null) {
+            try {
+                String userId = prefs.getString("userId", null);
+                String name = prefs.getString("name", null);
+                String password = prefs.getString("password", null);
+                String username = prefs.getString("username", null);
+                Session.currentUser = new User(userId, username, name, password);
+                Toast.makeText(this, "Yey", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        }
         btnLoginFb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -59,8 +80,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 try {
                                     String email=object.getString("email");
                                     String name=object.getString("name");
-                                    Session.name = name;
-                                    Session.username=email;
+                                    Session.currentUser = new User();
+                                    Session.currentUser.setName(name);
+                                    Session.currentUser.setUsername(email);
 
                                     //harus a disini kodingan insert org yang login pake fb ke firebase
                                     //tapi divalidasiin klo udah pernah login pake fb gk usah insert lagi
@@ -68,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                     startActivity(intent);
+                                    finish();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

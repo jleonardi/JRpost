@@ -5,6 +5,5 @@ package edu.bluejack16_2.jrpost.models;
  */
 
 public class Session {
-    public static String name;
-    public static String username;
+    public static User currentUser;
 }

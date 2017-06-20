@@ -68,15 +68,9 @@ public class MainActivity extends AppCompatActivity
         View headerView = navigationView.getHeaderView(0);
         TextView lblName = (TextView) headerView.findViewById(R.id.lblName);
         TextView lblUsername = (TextView) headerView.findViewById(R.id.lblUsername);
-//        lblName.setText(Session.name);
-//        lblUsername.setText(Session.username);
-
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String name = prefs.getString("name", "defaultStringIfNothingFound");
-        String username = prefs.getString("username", "defaultStringIfNothingFound");
-
-        lblName.setText(name);
-        lblUsername.setText(username);
+        lblName.setText(Session.currentUser.getName());
+        lblUsername.setText(Session.currentUser.getUsername());
 
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -107,9 +101,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Session.name="";
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();
+            editor.commit();
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
         }

@@ -76,14 +76,12 @@ public class UserController {
                     if(!password.equals(login_password))
                         break;
 
-                    Session.name=name;
-                    Session.username=username;
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("username", username);
                     editor.putString("name", name);
                     editor.putString("userId", userId);
-                    editor.putString("password", userId);
+                    editor.putString("password", password);
                     editor.commit();
                     Intent intent = new Intent(activity.getApplicationContext(),MainActivity.class);
                     activity.startActivity(intent);
