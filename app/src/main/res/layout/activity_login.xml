@@ -72,5 +72,6 @@
         android:layout_marginTop="5dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/fb_login_bn"
+        android:id="@+id/btnLoginGmail"
         android:layout_centerHorizontal="true"></com.google.android.gms.common.SignInButton>
 </RelativeLayout>
