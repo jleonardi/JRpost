@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
@@ -9,9 +10,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import edu.bluejack16_2.jrpost.LoginActivity;
+import edu.bluejack16_2.jrpost.MainActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
+import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.User;
 
 /**
@@ -27,7 +32,7 @@ public class UserController {
     private static UserController instance = new UserController();
 
     private UserController() {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference("users");
     }
 
     public static UserController getInstance() {
@@ -43,22 +48,24 @@ public class UserController {
         * nanti ngasilin dari root -> users -> unique id -> data data usernya
         * */
         mDatabase.child("users").push().setValue(newUser);
-
         return true;
     }
 
-    public void getUser(String username, String password, final RegisterActivity activity) {
-        DatabaseReference userRef = mDatabase.child("users").orderByChild("username").equalTo(username).getRef();
+    public void getUser(String username, String password, final LoginActivity activity) {
+        Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    Toast.makeText(activity, ds.child("name").getValue().toString(), Toast.LENGTH_SHORT).show();
+                    String name = ds.child("name").getValue().toString();
+                    Session.name=name;
+                    Intent intent = new Intent(activity.getApplicationContext(),MainActivity.class);
+                    activity.startActivity(intent);
+                    Toast.makeText(activity, "Welcome, "+name, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Toast.makeText(activity, "Gagal", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(activity, "You are not registered as member, Please Register!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -66,7 +73,6 @@ public class UserController {
 
             }
         });
-
     }
 
 }
