@@ -44,6 +44,39 @@ public class UserController {
         return instance;
     }
 
+    boolean exists = false;
+    boolean stillWaiting;
+    public boolean existsInFirebase(String username)
+    {
+        stillWaiting = true;
+        Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount()>0)
+                {
+                    exists=true;
+                }
+                else
+                {
+                    exists=false;
+                }
+                stillWaiting = false;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        while(stillWaiting)
+        {
+
+        }
+        return exists;
+    }
+
     public Boolean addNewUser(String username, String name, String password) {
 
         String newUserId = mDatabase.push().getKey();
