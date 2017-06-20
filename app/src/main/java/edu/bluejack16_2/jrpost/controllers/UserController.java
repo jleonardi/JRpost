@@ -30,6 +30,7 @@ public class UserController {
     * */
     private DatabaseReference mDatabase;
     private static UserController instance = new UserController();
+    private String login_password;
 
     private UserController() {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
@@ -53,13 +54,21 @@ public class UserController {
 
     public void getUser(String username, String password, final LoginActivity activity) {
         Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
+        login_password=password;
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue().toString();
+                    String username = ds.child("username").getValue().toString();
+                    String password = ds.child("password").getValue().toString();
+
+                    if(!password.equals(login_password))
+                        break;
+
                     Session.name=name;
+                    Session.username=username;
                     Intent intent = new Intent(activity.getApplicationContext(),MainActivity.class);
                     activity.startActivity(intent);
                     Toast.makeText(activity, "Welcome, "+name, Toast.LENGTH_SHORT).show();

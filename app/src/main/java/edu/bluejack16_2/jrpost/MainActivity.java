@@ -13,25 +13,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import edu.bluejack16_2.jrpost.models.Session;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    NavigationView navigationView=null;
+    Toolbar toolbar=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        //set fragment awal
+        setTitle("Timeline");
+        TimelineFragment timelineFragment= new TimelineFragment();
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout,timelineFragment);
+        fragmentTransaction.commit();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                setTitle("New Story");
+                NewStoryFragment newStoryFragment= new NewStoryFragment();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout,newStoryFragment);
+                fragmentTransaction.commit();
             }
         });
 
@@ -41,7 +58,13 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //set name di header a user yang lagi login
+        View headerView = navigationView.getHeaderView(0);
+        TextView lblName = (TextView) headerView.findViewById(R.id.lblName);
+        TextView lblUsername = (TextView) headerView.findViewById(R.id.lblUsername);
+        lblName.setText(Session.name);
+        lblUsername.setText(Session.username);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -85,15 +108,33 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_newStory) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_leaderboard) {
-
-        } else if (id == R.id.nav_search) {
+        //jadi di a ne banyak fragment, tiap klik klik menu yang disamping a toh je dak pindah page
+        //tapi ganti fragment doang
+        if (id == R.id.nav_newStory)
+        {
+            setTitle("New Story");
+            NewStoryFragment newStoryFragment= new NewStoryFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout,newStoryFragment);
+            fragmentTransaction.commit();
+        }
+        else if (id == R.id.nav_leaderboard)
+        {
 
         }
+        else if (id == R.id.nav_search)
+        {
+
+        }
+        else if(id==R.id.nav_Timeline)
+        {
+            setTitle("Timeline");
+            TimelineFragment timelineFragment= new TimelineFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout,timelineFragment);
+            fragmentTransaction.commit();
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

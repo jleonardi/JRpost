@@ -7,9 +7,17 @@
             android:icon="@drawable/ic_menu_camera"
             android:title="New Story" />
         <item
+            android:id="@+id/nav_Timeline"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Timeline" />
+        <item
             android:id="@+id/nav_leaderboard"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Leaderboard" />
+        <item
+            android:id="@+id/nav_notification"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Notification"/>
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_manage"
