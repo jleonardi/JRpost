@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -44,26 +45,33 @@ public class UserController {
         return instance;
     }
 
-    boolean exists = false;
-    boolean stillWaiting;
-    public boolean existsInFirebase(String username)
+    public void doRegister(final String username,final String name,final String password,final RegisterActivity registerActivity)
     {
-        stillWaiting = true;
         Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getChildrenCount()>0)
+                if(dataSnapshot.getChildrenCount()>0) //klo usernamenya udah ada
                 {
-                    exists=true;
+                    Toast.makeText(registerActivity, "Username is already Exists", Toast.LENGTH_SHORT).show();
+                    return;
                 }
                 else
                 {
-                    exists=false;
+                    SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(registerActivity.getApplicationContext());;
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putString("name",name);
+                    editor.putString("username",username);
+                    editor.commit();
+                    addNewUser(username,name,password);
+                    Session.currentUser=new User(username,name,password);
+                    Toast.makeText(registerActivity, "Succesfully Register", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(registerActivity,MainActivity.class);
+                    registerActivity.startActivity(intent);
+                    registerActivity.finish();
                 }
-                stillWaiting = false;
-                Log.d("listenerjalan", "anjay");
             }
 
             @Override
@@ -71,7 +79,6 @@ public class UserController {
 
             }
         });
-        return exists;
     }
 
     public Boolean addNewUser(String username, String name, String password) {
