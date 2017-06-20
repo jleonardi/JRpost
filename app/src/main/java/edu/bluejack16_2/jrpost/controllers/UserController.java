@@ -63,6 +63,7 @@ public class UserController {
                     exists=false;
                 }
                 stillWaiting = false;
+                Log.d("listenerjalan", "anjay");
             }
 
             @Override
@@ -70,10 +71,6 @@ public class UserController {
 
             }
         });
-        while(stillWaiting)
-        {
-
-        }
         return exists;
     }
 

@@ -55,6 +55,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "Username must be filled", Toast.LENGTH_SHORT).show();
             else if(UserController.getInstance().existsInFirebase(username)==true)
                 Toast.makeText(this, "Username is already exists", Toast.LENGTH_SHORT).show();
+            else if(UserController.getInstance().existsInFirebase(username)==false) {
+                if(UserController.getInstance().existsInFirebase(username)==true) {
+                    Toast.makeText(this, "Username is already exists", Toast.LENGTH_SHORT).show();
+                }
+            }
             else if(name.length()==0)
                 Toast.makeText(this, "Name must be filled", Toast.LENGTH_SHORT).show();
             else if(password.length()==0)
