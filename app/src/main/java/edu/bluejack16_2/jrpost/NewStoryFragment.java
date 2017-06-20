@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import edu.bluejack16_2.jrpost.controllers.StoryController;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +20,10 @@ public class NewStoryFragment extends Fragment {
 
     public NewStoryFragment() {
         // Required empty public constructor
+//        ArrayList<String> genres = new ArrayList<>();
+//        genres.add("Horror");
+//        genres.add("Comedy");
+//        StoryController.getInstance().addStory("Story of Anjay", "Once upon a time", genres);
     }
 
 
@@ -24,6 +32,7 @@ public class NewStoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_new_story, container, false);
+
     }
 
 }

@@ -72,6 +72,7 @@ public class UserController {
                     String username = ds.child("username").getValue().toString();
                     String password = ds.child("password").getValue().toString();
                     String userId = ds.child("userId").getValue().toString();
+                    Session.currentUser = new User(userId, username, name, password);
 
                     if(!password.equals(login_password))
                         break;
@@ -86,6 +87,7 @@ public class UserController {
                     Intent intent = new Intent(activity.getApplicationContext(),MainActivity.class);
                     activity.startActivity(intent);
                     Toast.makeText(activity, "Welcome, "+name, Toast.LENGTH_SHORT).show();
+                    activity.finish();
                     return;
                 }
                 Toast.makeText(activity, "You are not registered as member, Please Register!", Toast.LENGTH_SHORT).show();
