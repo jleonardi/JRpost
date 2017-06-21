@@ -41,7 +41,8 @@ public class TimelineFragment extends Fragment {
             progressDialog.setMessage("Please wait");
             progressDialog.setCancelable(false);
             progressDialog.show();
-            StoryController.getInstance().getAllStory(storyViewAdapter,this);
+            //StoryController.getInstance().getAllStory(storyViewAdapter,this);
+            StoryController.getInstance().getStoryOnFollowedUser(storyViewAdapter,this);
 
             storyListView.setAdapter(storyViewAdapter);
 

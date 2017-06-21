@@ -15,7 +15,10 @@ import java.util.Date;
 
 import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
+import edu.bluejack16_2.jrpost.models.Follow;
+import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.models.User;
 
 /**
  * Created by User on 6/20/2017.
@@ -40,22 +43,92 @@ public class StoryController {
 
     }
 
+    public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {
+        Query followedUserRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("userId").equalTo(Session.currentUser.getUserId());
+        followedUserRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    //Log.d("Follow Start", ds.child("followedUserId").getValue().toString());
+                    Follow currentFollowStatus = ds.getValue(Follow.class);
+                    Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories").orderByChild("currentUser").equalTo(currentFollowStatus.getFollowedUserId());
+                    storyRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                                final Story story = ds.getValue(Story.class);
+                                Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                                userRef.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                            User usr = ds.getValue(User.class);
+                                            story.setUser(usr);
+                                            adapter.addStory(story);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+                fragment.progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void getAllStory(final StoryViewAdapter adapter, final TimelineFragment fragment) {
+
         Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
         storyRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
-                    String storyTitle = ds.child("storyTitle").getValue().toString();
-                    String storyContent = ds.child("storyContent").getValue().toString();
-                    String storyGenre = ds.child("storyGenre").getValue().toString();
-                    String currentUser = ds.child("currentUser").getValue().toString();
-                    //Date createdAt = (Date) ds.child("createdAt").getValue();
-                    String storyId = ds.child("storyId").getValue().toString();
-                    Story story = new Story(storyId, storyTitle, storyContent, storyGenre, currentUser);
-                    adapter.addStory(story);
+//                    String storyTitle = ds.child("storyTitle").getValue().toString();
+//                    String storyContent = ds.child("storyContent").getValue().toString();
+//                    String storyGenre = ds.child("storyGenre").getValue().toString();
+//                    String currentUser = ds.child("currentUser").getValue().toString();
+//                    //Date createdAt = (Date) ds.child("createdAt").getValue();
+//                    String storyId = ds.child("storyId").getValue().toString();
+//                    Story story = new Story(storyId, storyTitle, storyContent, storyGenre, currentUser);
+                    final Story story = ds.getValue(Story.class);
+                    Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                    userRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                User usr = ds.getValue(User.class);
+                                story.setUser(usr);
+                                adapter.addStory(story);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
-                adapter.notifyDataSetChanged();
+
                 //loading selesai
                 fragment.progressDialog.dismiss();
             }

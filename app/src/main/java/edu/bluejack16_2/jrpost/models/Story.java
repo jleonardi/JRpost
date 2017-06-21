@@ -14,6 +14,7 @@ public class Story {
     private String storyGenre;
     private String currentUser;
     private Date createdAt;
+    private User user;
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Date createdAt) {
         this.storyId = storyId;
@@ -44,6 +45,14 @@ public class Story {
 
     public Story() {
 
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getStoryId() {

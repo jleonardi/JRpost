@@ -69,7 +69,7 @@ public class StoryViewAdapter extends BaseAdapter{
         TextView  tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
 
         tvStoryTitle.setText(current.getStoryTitle());
-        tvUsername.setText(current.getCurrentUser());
+        tvUsername.setText(current.getUser().getUsername());
         //tvCreatedAt.setText(current.getCreatedAt().toString());
         tvGenre.setText(current.getStoryGenre());
         tvContent.setText(current.getStoryContent());
