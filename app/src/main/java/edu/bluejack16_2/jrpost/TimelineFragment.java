@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import edu.bluejack16_2.jrpost.models.Story;
 
 
 public class TimelineFragment extends Fragment {
+    StoryViewAdapter storyViewAdapter;
     public TimelineFragment() {
         // Required empty public constructor
         //StoryController.getInstance().getAllStory();
@@ -31,14 +33,18 @@ public class TimelineFragment extends Fragment {
 
 
             ListView storyListView = (ListView) view.findViewById(R.id.storyListView);
-            final StoryViewAdapter storyViewAdapter = new StoryViewAdapter(getContext());
-            //StoryController.getInstance().getAllStory(storyViewAdapter);
-//            Story s = new Story();
-//            s.setStoryTitle("anj");
-//            storyViewAdapter.addStory(s);
+            storyViewAdapter = new StoryViewAdapter(getContext());
+            StoryController.getInstance().getAllStory(storyViewAdapter);
+
             storyListView.setAdapter(storyViewAdapter);
-            Toast.makeText(getContext(), "Wanjayyy", Toast.LENGTH_SHORT).show();
-            Log.d("Wah", "Imbah");
+
+            storyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getContext(), ((Story)storyViewAdapter.getItem(position)).getStoryId(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
         } catch (Exception e) {
             Log.d("Wah", "Kofang");
 

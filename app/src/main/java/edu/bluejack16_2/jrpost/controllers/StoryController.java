@@ -7,9 +7,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -34,6 +36,7 @@ public class StoryController {
         String storyId = mDatabase.push().getKey();
         Story newStory = new Story(storyId, storyTitle, storyContent, storyGenre);
         mDatabase.child(storyId).setValue(newStory);
+
     }
 
     public void getAllStory(final StoryViewAdapter adapter) {
@@ -43,11 +46,15 @@ public class StoryController {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     String storyTitle = ds.child("storyTitle").getValue().toString();
-                    Story story = new Story();
-                    story.setStoryTitle(storyTitle);
+                    String storyContent = ds.child("storyContent").getValue().toString();
+                    String storyGenre = ds.child("storyGenre").getValue().toString();
+                    String currentUser = ds.child("currentUser").getValue().toString();
+                    //Date createdAt = (Date) ds.child("createdAt").getValue();
+                    String storyId = ds.child("storyId").getValue().toString();
+                    Story story = new Story(storyId, storyTitle, storyContent, storyGenre, currentUser);
                     adapter.addStory(story);
                 }
-                Log.d("Story jalan", "Story Jalan");
+                adapter.notifyDataSetChanged();
             }
 
             @Override

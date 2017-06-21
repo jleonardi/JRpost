@@ -15,6 +15,15 @@ public class Story {
     private String currentUser;
     private Date createdAt;
 
+    public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Date createdAt) {
+        this.storyId = storyId;
+        this.storyTitle = storyTitle;
+        this.storyContent = storyContent;
+        this.storyGenre = storyGenre;
+        this.currentUser = currentUser;
+        this.createdAt = createdAt;
+    }
+
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser) {
         this.storyId = storyId;
         this.storyTitle = storyTitle;

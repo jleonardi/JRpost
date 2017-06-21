@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import edu.bluejack16_2.jrpost.R;
@@ -64,10 +62,20 @@ public class StoryViewAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.story_row, parent, false);
         }
 
-        TextView  tvStoryTitle = (TextView) convertView.findViewById(R.id.titleTxt);
+        TextView  tvStoryTitle = (TextView) convertView.findViewById(R.id.storyRowTitleTv);
+        TextView  tvUsername = (TextView) convertView.findViewById(R.id.storyRowUsernameTV);
+        TextView  tvCreatedAt = (TextView) convertView.findViewById(R.id.storyRowCreatedAtTV);
+        TextView  tvGenre = (TextView) convertView.findViewById(R.id.storyRowGenreTV);
+        TextView  tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
 
         tvStoryTitle.setText(current.getStoryTitle());
+        tvUsername.setText(current.getCurrentUser());
+        //tvCreatedAt.setText(current.getCreatedAt().toString());
+        tvGenre.setText(current.getStoryGenre());
+        tvContent.setText(current.getStoryContent());
 
-        return null;
+
+
+        return convertView;
     }
 }
