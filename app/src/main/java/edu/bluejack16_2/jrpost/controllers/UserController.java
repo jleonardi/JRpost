@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -45,7 +46,36 @@ public class UserController {
         return instance;
     }
 
-    public void doRegister(final String username,final String name,final String password,final RegisterActivity registerActivity)
+    public void doLoginWithFbGmail(final String username,final String name,final String password,final Activity activity)
+    {
+        Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount()==0) //klo usernamenya blom ada
+                {
+                    addNewUser(username,name,password);
+                }
+                SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());;
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("name",name);
+                editor.putString("username",username);
+                editor.commit();
+                Session.currentUser=new User(username,name,password);
+                Intent intent = new Intent(activity,MainActivity.class);
+                activity.startActivity(intent);
+                activity.finish();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void doRegister(final String username,final String name,final String password,final Activity activity)
     {
         Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
 
@@ -54,23 +84,25 @@ public class UserController {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()>0) //klo usernamenya udah ada
                 {
-                    Toast.makeText(registerActivity, "Username is already Exists", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, "Username is already Exists", Toast.LENGTH_SHORT).show();
+                    RegisterActivity.progressDialog.dismiss();
                     return;
                 }
                 else
                 {
-                    SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(registerActivity.getApplicationContext());;
+                    SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());;
                     SharedPreferences.Editor editor = prefs.edit();
                     editor.putString("name",name);
                     editor.putString("username",username);
                     editor.commit();
                     addNewUser(username,name,password);
                     Session.currentUser=new User(username,name,password);
-                    Toast.makeText(registerActivity, "Succesfully Register", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(registerActivity,MainActivity.class);
-                    registerActivity.startActivity(intent);
-                    registerActivity.finish();
+                    Toast.makeText(activity, "Succesfully Register", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(activity,MainActivity.class);
+                    activity.startActivity(intent);
+                    activity.finish();
                 }
             }
 
@@ -128,6 +160,7 @@ public class UserController {
                     return;
                 }
                 Toast.makeText(activity, "You are not registered as member, Please Register!", Toast.LENGTH_SHORT).show();
+                LoginActivity.progressDialog.dismiss();
             }
 
             @Override

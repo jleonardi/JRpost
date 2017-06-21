@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     EditText txtName;
     Button btnLogin;
     Button btnRegister;
+    public static ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Toast.makeText(this, "Password does not match the Confirm Password", Toast.LENGTH_SHORT).show();
             else
             {
+                progressDialog = new ProgressDialog(RegisterActivity.this);
+                progressDialog.setMessage("Please wait");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 UserController.getInstance().doRegister(username,name,password,this);
             }
         }

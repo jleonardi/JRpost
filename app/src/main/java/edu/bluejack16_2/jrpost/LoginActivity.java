@@ -1,5 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -18,6 +20,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -51,6 +54,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     SharedPreferences prefs;
     SignInButton btnLoginGmail;
     GoogleApiClient googleApiClient;
+    public static ProgressDialog progressDialog;
     final int REQ_CODE = 9001;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +90,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
+        final Activity activity = this;
         btnLoginFb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+
             @Override
             public void onSuccess(LoginResult loginResult) {
                 GraphRequest request = GraphRequest.newMeRequest(
@@ -104,14 +110,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                     Session.currentUser = new User();
                                     Session.currentUser.setName(name);
                                     Session.currentUser.setUsername(email);
-
-                                    //harus a disini kodingan insert org yang login pake fb ke firebase
-                                    //tapi divalidasiin klo udah pernah login pake fb gk usah insert lagi
-                                    //bedain yang login pake fb sama yang register, login pake fb passwordnya kosong
-
-                                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    progressDialog = new ProgressDialog(LoginActivity.this);
+                                    progressDialog.setMessage("Please wait");
+                                    progressDialog.setCancelable(false);
+                                    progressDialog.show();
+                                    LoginManager.getInstance().logOut();
+                                    UserController.getInstance().doLoginWithFbGmail(email,name,null,activity);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -159,6 +163,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Password must be filled", Toast.LENGTH_SHORT).show();
             else
             {
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("Please wait");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 UserController.getInstance().getUser(username, password, this);
             }
 
@@ -182,9 +190,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signInGmail()
     {
-        signOutGmail();
-        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-        startActivityForResult(intent,REQ_CODE);
+            signOutGmail();
+            Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+            startActivityForResult(intent, REQ_CODE);
     }
 
     private void signOutGmail()
@@ -197,21 +205,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void handleResult(GoogleSignInResult result)
-    {
-            GoogleSignInAccount account = result.getSignInAccount();
-            String name = account.getDisplayName();
-            String email = account.getEmail();
-            //String img_url = account.getPhotoUrl.toString();
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putString("name",name);
-            editor.putString("username",email);
-            editor.commit();
-            Session.currentUser = new User();
-            Session.currentUser.setName(name);
-            Session.currentUser.setUsername(email);
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
-            finish();
+        {
+            try {
+                GoogleSignInAccount account = result.getSignInAccount();
+                String name = account.getDisplayName();
+                String email = account.getEmail();
+                //String img_url = account.getPhotoUrl.toString();
+
+                //login pakai gmail
+
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("name", name);
+                editor.putString("username", email);
+                editor.commit();
+                Session.currentUser = new User();
+                Session.currentUser.setName(name);
+                Session.currentUser.setUsername(email);
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setMessage("Please wait");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                UserController.getInstance().doLoginWithFbGmail(email, name, null, this);
+            }catch (Exception e)
+            {
+
+            }
     }
 
 }

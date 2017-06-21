@@ -92,4 +92,5 @@
         android:layout_alignStart="@+id/btnRegister"
         android:layout_below="@+id/btnRegister"
         android:text="Login" />
+
 </RelativeLayout>

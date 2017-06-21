@@ -19,11 +19,11 @@ public class NewStoryFragment extends Fragment {
 
 
     public NewStoryFragment() {
-        // Required empty public constructor
-//        ArrayList<String> genres = new ArrayList<>();
-//        genres.add("Horror");
-//        genres.add("Comedy");
-//        StoryController.getInstance().addStory("Story of Anjay", "Once upon a time", genres);
+        //Required empty public constructor
+        //ArrayList<String> genres = new ArrayList<>();
+        //genres.add("Horror");
+        //genres.add("Comedy");
+        //StoryController.getInstance().addStory("Story of Anjay", "Once upon a time", genres);
     }
 
 
