@@ -9,7 +9,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.models.Follow;
+import edu.bluejack16_2.jrpost.models.Session;
 
 /**
  * Created by User on 6/21/2017.
@@ -31,7 +33,7 @@ public class FollowController {
         String followId = mDatabase.push().getKey();
         final Follow newFollow = new Follow(followId, followedUserId);
         Query followRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("currentAndFollowed").equalTo(newFollow.getCurrentAndFollowed());
-        followRef.addValueEventListener(new ValueEventListener() {
+        followRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount() <= 0) {
@@ -51,7 +53,7 @@ public class FollowController {
     public void unFollowUser(String followedUserId) {
         Follow newFollow = new Follow(followedUserId);
         Query followRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("currentAndFollowed").equalTo(newFollow.getCurrentAndFollowed());
-        followRef.addValueEventListener(new ValueEventListener() {
+        followRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
@@ -59,6 +61,28 @@ public class FollowController {
                     //mDatabase.child("followUsers").child(oldFollow.getFollowId()).removeValue();
                     ds.getRef().setValue(null);
                     Log.d("UnfollowTest", "Gils");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+    public void checkFollowUser(final DetailStoryFragment fragment, String followedUserId){
+        Follow newFollow = new Follow(followedUserId);
+        Query followRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("currentAndFollowed").equalTo(newFollow.getCurrentAndFollowed());
+        followRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() > 0) {
+                    fragment.isFollowing(true);
+                } else {
+                    fragment.isFollowing(false);
                 }
             }
 

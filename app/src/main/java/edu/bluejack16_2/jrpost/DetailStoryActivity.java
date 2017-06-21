@@ -18,6 +18,7 @@ public class DetailStoryActivity extends AppCompatActivity {
     ViewPager viewPager;
     TabLayout tabLayout;
     DetailStoryViewAdapter adapter;
+    Story currentStory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class DetailStoryActivity extends AppCompatActivity {
             byte[] buf = intent.getByteArrayExtra("story");
             ByteArrayInputStream bais = new ByteArrayInputStream(buf);
             ObjectInputStream ois = new ObjectInputStream(bais);
-            Story story = (Story)ois.readObject();
+            currentStory = (Story)ois.readObject();
             //Toast.makeText(this, story.getStoryId(), Toast.LENGTH_SHORT).show();
             viewPager= (ViewPager) findViewById(R.id.viewPager);
             tabLayout= (TabLayout) findViewById(R.id.tabLayout);

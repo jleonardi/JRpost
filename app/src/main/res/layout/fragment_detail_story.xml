@@ -1,13 +1,79 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     tools:context="edu.bluejack16_2.jrpost.DetailStoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/detailStoryTitleTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Story Title"
+        android:textColor="@color/cardview_dark_background"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/detailUsernameTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailStoryTitleTV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="By: Username" />
+
+    <TextView
+        android:id="@+id/detailStoryGenre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailUsernameTV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Horror" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/detailStoryGenre"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/darker_gray" />
+
+    <ScrollView
+        android:id="@+id/detailContentScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view"
+        android:minHeight="320dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/detailContentTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ini Content" />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/detailFollowUserBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/detailContentScrollView"
+        android:text="Follow User" />
+</RelativeLayout>
