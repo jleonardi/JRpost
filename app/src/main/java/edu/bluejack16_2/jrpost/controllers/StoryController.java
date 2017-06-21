@@ -1,10 +1,17 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
 
 /**
@@ -23,10 +30,31 @@ public class StoryController {
         return instance;
     }
 
-    public void addStory(String storyTitle, String storyContent, ArrayList<String> storyGenre) {
+    public void addStory(String storyTitle, String storyContent, String storyGenre) {
         String storyId = mDatabase.push().getKey();
         Story newStory = new Story(storyId, storyTitle, storyContent, storyGenre);
         mDatabase.child(storyId).setValue(newStory);
+    }
+
+    public void getAllStory(final StoryViewAdapter adapter) {
+        Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
+        storyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    String storyTitle = ds.child("storyTitle").getValue().toString();
+                    Story story = new Story();
+                    story.setStoryTitle(storyTitle);
+                    adapter.addStory(story);
+                }
+                Log.d("Story jalan", "Story Jalan");
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

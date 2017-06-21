@@ -11,11 +11,11 @@ public class Story {
     private String storyId;
     private String storyTitle;
     private String storyContent;
-    private ArrayList<String> storyGenre;
-    private User currentUser;
+    private String storyGenre;
+    private String currentUser;
     private Date createdAt;
 
-    public Story(String storyId, String storyTitle, String storyContent, ArrayList<String> storyGenre, User currentUser) {
+    public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser) {
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -24,13 +24,17 @@ public class Story {
         this.createdAt = new Date();
     }
 
-    public Story(String storyId, String storyTitle, String storyContent, ArrayList<String> storyGenre) {
+    public Story(String storyId, String storyTitle, String storyContent, String storyGenre) {
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
         this.storyGenre = storyGenre;
-        this.currentUser = Session.currentUser;
+        this.currentUser = Session.currentUser.getUserId();
         this.createdAt = new Date();
+    }
+
+    public Story() {
+
     }
 
     public String getStoryId() {
@@ -57,19 +61,19 @@ public class Story {
         this.storyContent = storyContent;
     }
 
-    public ArrayList<String> getStoryGenre() {
+    public String getStoryGenre() {
         return storyGenre;
     }
 
-    public void setStoryGenre(ArrayList<String> storyGenre) {
+    public void setStoryGenre(String storyGenre) {
         this.storyGenre = storyGenre;
     }
 
-    public User getCurrentUser() {
+    public String getCurrentUser() {
         return currentUser;
     }
 
-    public void setCurrentUser(User currentUser) {
+    public void setCurrentUser(String currentUser) {
         this.currentUser = currentUser;
     }
 

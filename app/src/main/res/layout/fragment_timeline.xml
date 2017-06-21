@@ -17,5 +17,12 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="disini timeline story storynya" />
+
+        <ListView
+            android:id="@+id/storyListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView8"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </FrameLayout>
