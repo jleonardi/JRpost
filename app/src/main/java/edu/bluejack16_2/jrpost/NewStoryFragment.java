@@ -8,9 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ public class NewStoryFragment extends Fragment {
 
     EditText txtStory;
     EditText txtTitle;
+    ArrayAdapter adapter;
+    Spinner spinGenre;
     public NewStoryFragment() {
         //Required empty public constructor
         //ArrayList<String> genres = new ArrayList<>();
@@ -45,7 +49,17 @@ public class NewStoryFragment extends Fragment {
         try {
             txtStory = (EditText) view.findViewById(R.id.txtStory);
             txtTitle = (EditText) view.findViewById(R.id.txtTitle);
+            spinGenre = (Spinner) view.findViewById(R.id.spinGenre);
 
+            ArrayList<String> genres = new ArrayList<>();
+            genres.add("Drama");
+            genres.add("Comedy");
+            genres.add("Fantasy");
+            genres.add("Mystery");
+            genres.add("Horror");
+            genres.add("Thriller");
+            adapter=new ArrayAdapter(view.getContext(),android.R.layout.simple_list_item_1,genres);
+            spinGenre.setAdapter(adapter);
 
             FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
             fab.setImageResource(R.drawable.ic_menu_share);
