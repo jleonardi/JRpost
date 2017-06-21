@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * Created by User on 6/20/2017.
  */
 
-public class Story {
+public class Story implements Serializable {
     private String storyId;
     private String storyTitle;
     private String storyContent;

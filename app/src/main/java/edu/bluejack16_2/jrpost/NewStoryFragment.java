@@ -1,7 +1,9 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,6 @@ public class NewStoryFragment extends Fragment {
 
     EditText txtStory;
     EditText txtTitle;
-    Button btnSave;
     public NewStoryFragment() {
         //Required empty public constructor
         //ArrayList<String> genres = new ArrayList<>();
@@ -40,11 +41,15 @@ public class NewStoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_story, container, false);
+
         try {
             txtStory = (EditText) view.findViewById(R.id.txtStory);
             txtTitle = (EditText) view.findViewById(R.id.txtTitle);
-            btnSave = (Button) view.findViewById(R.id.btnSave);
-            btnSave.setOnClickListener(new View.OnClickListener() {
+
+
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            fab.setImageResource(R.drawable.ic_menu_share);
+            fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String story = txtStory.getText().toString();

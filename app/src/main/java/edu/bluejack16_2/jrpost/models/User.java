@@ -1,10 +1,12 @@
 package edu.bluejack16_2.jrpost.models;
 
+import java.io.Serializable;
+
 /**
  * Created by User on 6/19/2017.
  */
 
-public class User {
+public class User implements Serializable{
     private String userId;
     private String username;
     private String name;
