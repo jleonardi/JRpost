@@ -1,59 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp">
 
     <TextView
         android:id="@+id/storyRowUsernameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
+        android:layout_marginTop="13dp"
+        android:text="username"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp"
-        android:text="anjay" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/storyRowGenreTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:text="TextView"
-        android:layout_alignBaseline="@+id/storyRowUsernameTV"
-        android:layout_alignBottom="@+id/storyRowUsernameTV"
-        android:layout_toEndOf="@+id/storyRowUsernameTV" />
+        android:text="Genre"
+        android:layout_below="@+id/storyRowCreatedAtTV"
+        android:layout_marginTop="10dp"
+        android:layout_alignEnd="@+id/storyRowCreatedAtTV" />
 
     <TextView
         android:id="@+id/storyRowCreatedAtTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/storyRowGenreTV"
-        android:layout_alignBottom="@+id/storyRowGenreTV"
-        android:layout_marginStart="30dp"
-        android:layout_toEndOf="@+id/storyRowGenreTV"
-        android:text="TextView" />
+        android:text="30/03/1997"
+        android:layout_alignBaseline="@+id/storyRowUsernameTV"
+        android:layout_alignBottom="@+id/storyRowUsernameTV"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/storyRowContentTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/storyRowTitleTv"
         android:layout_below="@+id/storyRowTitleTv"
         android:layout_marginTop="14dp"
         android:maxWidth="100dp"
         android:minHeight="100dp"
         android:minWidth="100dp"
-        android:text="TextView"
+        android:text="Content"
         android:textColor="@color/cardview_dark_background"
-        android:textColorHighlight="@color/cardview_dark_background" />
+        android:textColorHighlight="@color/cardview_dark_background"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/storyRowTitleTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/storyRowUsernameTV"
-        android:layout_below="@+id/storyRowUsernameTV"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
-        tools:textColor="@color/cardview_dark_background" />
+        android:text="Title"
+        tools:textColor="@color/cardview_dark_background"
+        android:layout_alignBaseline="@+id/storyRowGenreTV"
+        android:layout_alignBottom="@+id/storyRowGenreTV"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

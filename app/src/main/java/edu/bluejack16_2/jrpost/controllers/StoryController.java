@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
 
@@ -39,7 +40,7 @@ public class StoryController {
 
     }
 
-    public void getAllStory(final StoryViewAdapter adapter) {
+    public void getAllStory(final StoryViewAdapter adapter, final TimelineFragment fragment) {
         Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
         storyRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,6 +56,8 @@ public class StoryController {
                     adapter.addStory(story);
                 }
                 adapter.notifyDataSetChanged();
+                //loading selesai
+                fragment.progressDialog.dismiss();
             }
 
             @Override

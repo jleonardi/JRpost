@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import edu.bluejack16_2.jrpost.models.Story;
 
 public class TimelineFragment extends Fragment {
     StoryViewAdapter storyViewAdapter;
+    public ProgressDialog progressDialog;
     public TimelineFragment() {
         // Required empty public constructor
         //StoryController.getInstance().getAllStory();
@@ -34,7 +36,12 @@ public class TimelineFragment extends Fragment {
 
             ListView storyListView = (ListView) view.findViewById(R.id.storyListView);
             storyViewAdapter = new StoryViewAdapter(getContext());
-            StoryController.getInstance().getAllStory(storyViewAdapter);
+            //loading
+            progressDialog = new ProgressDialog(view.getContext());
+            progressDialog.setMessage("Please wait");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            StoryController.getInstance().getAllStory(storyViewAdapter,this);
 
             storyListView.setAdapter(storyViewAdapter);
 
