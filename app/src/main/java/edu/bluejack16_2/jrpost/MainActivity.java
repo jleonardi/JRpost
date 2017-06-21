@@ -104,8 +104,10 @@ public class MainActivity extends AppCompatActivity
             SharedPreferences.Editor editor = prefs.edit();
             editor.clear();
             editor.commit();
+            Session.currentUser=null;
             Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
             startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
