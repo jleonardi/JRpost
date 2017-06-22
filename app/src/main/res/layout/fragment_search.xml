@@ -3,38 +3,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.bluejack16_2.jrpost.SearchFragment"
-    android:layout_margin="20dp">
+    android:layout_margin="10dp">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2.5"
+        android:weightSum="3"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:gravity="center"
-        android:background="@drawable/border_radius"
+        android:background="@drawable/border"
         android:id="@+id/linearLayout">
 
         <EditText
             android:id="@+id/txtSearch"
             android:layout_width="271dp"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/btnSearch" />
-
+            android:layout_weight="2"
+            android:layout_toStartOf="@+id/btnSearch"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"/>
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"/>
         <Button
             android:id="@+id/btnSearch"
-            android:layout_width="25dp"
+            android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_weight="0.70"
-            android:background="@drawable/ic_search" />
+            android:layout_weight="1"
+            android:background="@drawable/ic_search"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout2"
+        android:layout_below="@id/linearLayout"
+        android:weightSum="2">
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="User"
+                android:layout_weight="1"
+                android:id="@+id/rdUser"/>
+
+            <RadioButton
+                android:id="@+id/rdStory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Story"/>
+        </RadioGroup>
+    </LinearLayout>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cmbGenre"
+        android:layout_below="@id/linearLayout2"></Spinner>
     <ListView
         android:id="@+id/searchResultListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/linearLayout" />
+        android:layout_below="@id/cmbGenre" />
 
 </RelativeLayout>
