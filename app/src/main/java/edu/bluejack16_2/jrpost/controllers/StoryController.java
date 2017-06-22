@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Follow;
@@ -36,11 +37,11 @@ public class StoryController {
         return instance;
     }
 
-    public void addStory(String storyTitle, String storyContent, String storyGenre) {
+    public void addStory(String storyTitle, String storyContent, String storyGenre, final NewStoryFragment fragment) {
         String storyId = mDatabase.push().getKey();
         Story newStory = new Story(storyId, storyTitle, storyContent, storyGenre);
         mDatabase.child(storyId).setValue(newStory);
-
+        fragment.progressDialog.dismiss();
     }
 
     public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {

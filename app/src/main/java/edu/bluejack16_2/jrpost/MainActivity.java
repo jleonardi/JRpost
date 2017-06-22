@@ -136,7 +136,11 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_search)
         {
-
+            setTitle("Search");
+            SearchFragment searchFragment= new SearchFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout,searchFragment);
+            fragmentTransaction.commit();
         }
         else if(id==R.id.nav_Timeline)
         {
