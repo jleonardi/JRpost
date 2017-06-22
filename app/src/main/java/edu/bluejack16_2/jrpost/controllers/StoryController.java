@@ -15,6 +15,7 @@ import java.util.Date;
 
 import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
+import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Follow;
 import edu.bluejack16_2.jrpost.models.Session;
@@ -44,14 +45,84 @@ public class StoryController {
         fragment.progressDialog.dismiss();
     }
 
+    public void getStoryOnSearchTitle(final SearchResultAdapter adapter, final String searchPattern, final String genre){
+        Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
+        storyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    final Story story = ds.getValue(Story.class);
+                    if(story.getStoryTitle().contains(searchPattern)) {
+                        Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                    User usr = ds.getValue(User.class);
+                                    story.setUser(usr);
+                                    adapter.addStory(story);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getStoryOnUsername(final SearchResultAdapter adapter, final String searchPattern, final String genre){
+        Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
+        storyRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()) {
+                    final Story story = ds.getValue(Story.class);
+                    Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                User usr = ds.getValue(User.class);
+                                if(usr.getUsername().contains(searchPattern)) {
+                                    story.setUser(usr);
+                                    adapter.addStory(story);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {
-        //FollowController.getInstance().followUser("-Kn4mKxvpyHyUARSD-iK");
         Query followedUserRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("userId").equalTo(Session.currentUser.getUserId());
-        followedUserRef.addValueEventListener(new ValueEventListener() {
+        followedUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    //Log.d("Follow Start", ds.child("followedUserId").getValue().toString());
                     Follow currentFollowStatus = ds.getValue(Follow.class);
                     Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories").orderByChild("currentUser").equalTo(currentFollowStatus.getFollowedUserId());
                     storyRef.addValueEventListener(new ValueEventListener() {
@@ -60,7 +131,7 @@ public class StoryController {
                             for (DataSnapshot ds: dataSnapshot.getChildren()) {
                                 final Story story = ds.getValue(Story.class);
                                 Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
-                                userRef.addValueEventListener(new ValueEventListener() {
+                                userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         for(DataSnapshot ds: dataSnapshot.getChildren()) {
@@ -99,7 +170,7 @@ public class StoryController {
     public void getAllStory(final StoryViewAdapter adapter, final TimelineFragment fragment) {
 
         Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
-        storyRef.addValueEventListener(new ValueEventListener() {
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
