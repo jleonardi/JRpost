@@ -57,7 +57,7 @@ public class SearchFragment extends Fragment {
                 } else if(rbUser.isChecked()) {
                     StoryController.getInstance().getStoryOnUsername(searchResultAdapter, searchTxt.getText().toString(), "All");
                 } else {
-                    Toast.makeText(getContext(), "Please select radiobutton", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Please select Search Category", Toast.LENGTH_SHORT).show();
                 }
             }
         });

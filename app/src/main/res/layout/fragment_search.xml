@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:gravity="center"
-        android:background="@drawable/border"
+        android:background="@drawable/border_radius"
         android:id="@+id/linearLayout">
 
         <EditText
@@ -66,7 +66,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cmbGenre"
-        android:layout_below="@id/linearLayout2"></Spinner>
+        android:layout_below="@id/linearLayout2"
+        android:entries="@array/optCmbGenre"></Spinner>
     <ListView
         android:id="@+id/searchResultListView"
         android:layout_width="match_parent"

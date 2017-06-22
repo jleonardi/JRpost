@@ -10,4 +10,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="optCmbGenre">
+        <item>All Genre</item>
+        <item>Drama</item>
+        <item>Comedy</item>
+        <item>Fantasy</item>
+        <item>Mystery</item>
+        <item>Horror</item>
+        <item>Thriller</item>
+    </string-array>
 </resources>
