@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import edu.bluejack16_2.jrpost.LoginActivity;
 import edu.bluejack16_2.jrpost.MainActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
+import edu.bluejack16_2.jrpost.adapters.UserListAdapter;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.User;
 
@@ -103,6 +104,28 @@ public class UserController {
                     Intent intent = new Intent(activity,MainActivity.class);
                     activity.startActivity(intent);
                     activity.finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void searchUser(final UserListAdapter adapter, final String searchPattern) {
+
+        Query userRef = mDatabase;
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if(user.getUsername().toLowerCase().contains(searchPattern.toLowerCase())) {
+                        adapter.addUser(user);
+                        adapter.notifyDataSetChanged();
+                    }
                 }
             }
 

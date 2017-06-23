@@ -17,6 +17,7 @@ import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
+import edu.bluejack16_2.jrpost.adapters.UserStoryListAdapter;
 import edu.bluejack16_2.jrpost.models.Follow;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -43,6 +44,29 @@ public class StoryController {
         Story newStory = new Story(storyId, storyTitle, storyContent, storyGenre);
         mDatabase.child(storyId).setValue(newStory);
         fragment.progressDialog.dismiss();
+    }
+
+    public void getStoryOnUserId(String userId, final UserStoryListAdapter adapter) {
+        Query storyRef = mDatabase.orderByChild("currentUser").equalTo(userId);
+        Log.d("anjay", "getStoryOnUserId: " + userId);
+
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("anjay", "getStoryOnUserId: ");
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    Story story = ds.getValue(Story.class);
+                    adapter.addStory(story);
+                    adapter.notifyDataSetChanged();
+                    Log.d("anjay", "getStoryOnUserId: " + story.getStoryTitle());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getStoryOnSearchTitle(final SearchResultAdapter adapter, final String searchPattern, final String genre){

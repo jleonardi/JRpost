@@ -11,36 +11,30 @@ import java.util.ArrayList;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.models.User;
 
 /**
- * Created by User on 6/21/2017.
+ * Created by User on 6/23/2017.
  */
 
-public class StoryViewAdapter extends BaseAdapter{
+public class UserStoryListAdapter extends BaseAdapter {
 
     ArrayList<Story> stories;
+    User storyOwner;
     Context context;
 
-    public StoryViewAdapter(ArrayList<Story> stories, Context context) {
-        this.stories = stories;
+    public UserStoryListAdapter(User storyOwner, Context context) {
+        this.storyOwner = storyOwner;
         this.context = context;
+        stories = new ArrayList<>();
     }
 
-    public void addStory(Story story) {
+    public void addStory(Story story){
         stories.add(story);
     }
 
     public void clearStory() {
         stories.clear();
-    }
-
-    public StoryViewAdapter(Context context) {
-        this.stories = new ArrayList<>();
-        this.context = context;
-    }
-
-    public StoryViewAdapter() {
-
     }
 
     @Override
@@ -66,19 +60,17 @@ public class StoryViewAdapter extends BaseAdapter{
             convertView = inflater.inflate(R.layout.story_row, parent, false);
         }
 
-        TextView  tvStoryTitle = (TextView) convertView.findViewById(R.id.storyRowTitleTv);
+        TextView tvStoryTitle = (TextView) convertView.findViewById(R.id.storyRowTitleTv);
         TextView  tvUsername = (TextView) convertView.findViewById(R.id.storyRowUsernameTV);
         TextView  tvCreatedAt = (TextView) convertView.findViewById(R.id.storyRowCreatedAtTV);
         TextView  tvGenre = (TextView) convertView.findViewById(R.id.storyRowGenreTV);
         TextView  tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
 
         tvStoryTitle.setText(current.getStoryTitle());
-        tvUsername.setText(current.getUser().getUsername());
+        tvUsername.setText(storyOwner.getUsername());
         //tvCreatedAt.setText(current.getCreatedAt().toString());
         tvGenre.setText(current.getStoryGenre());
         tvContent.setText(current.getStoryContent());
-
-
 
         return convertView;
     }
