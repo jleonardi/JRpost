@@ -10,10 +10,6 @@ import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
-/**
- * Created by RE on 6/21/2017.
- */
-
 public class TabLayoutAdapter extends FragmentPagerAdapter {
 
     ArrayList<Fragment>listOfFragment;

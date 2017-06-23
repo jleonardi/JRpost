@@ -52,7 +52,12 @@ public class StoryController {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
                     final Story story = ds.getValue(Story.class);
-                    if(story.getStoryTitle().contains(searchPattern)) {
+                    if(
+                            (story.getStoryTitle().contains(searchPattern) && story.getStoryGenre().equals(genre))
+                          ||
+                            (story.getStoryTitle().contains(searchPattern) && genre.equals("All Genre"))
+                            )
+                    {
                         Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override

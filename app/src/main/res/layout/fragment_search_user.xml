@@ -36,5 +36,11 @@
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearLayout"
+        android:id="@+id/listViewSearchUser"
+        android:layout_margin="10dp"></ListView>
 
 </RelativeLayout>
