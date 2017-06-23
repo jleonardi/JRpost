@@ -150,6 +150,14 @@ public class MainActivity extends AppCompatActivity
             fragmentTransaction.replace(R.id.frameLayout,timelineFragment);
             fragmentTransaction.commit();
         }
+        else if(id==R.id.nav_notification)
+        {
+            setTitle("Notification");
+            NotificationFragment notifFragment = new NotificationFragment();
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout,notifFragment);
+            fragmentTransaction.commit();
+        }
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

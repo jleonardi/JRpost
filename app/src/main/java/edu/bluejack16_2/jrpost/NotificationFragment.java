@@ -3,34 +3,31 @@ package edu.bluejack16_2.jrpost;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.ListViewAutoScrollHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import edu.bluejack16_2.jrpost.adapters.TabLayoutAdapter;
+import android.widget.ListView;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchFragment extends Fragment {
+public class NotificationFragment extends Fragment {
 
-    TabLayoutAdapter adapter;
-    TabLayout tabLayoutSearch;
-    ViewPager viewPagerSearch;
 
-    public SearchFragment() {
+    public NotificationFragment() {
+        // Required empty public constructor
     }
 
+    ListView listViewNotif;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
@@ -45,13 +42,8 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        tabLayoutSearch = (TabLayout) view.findViewById(R.id.tabLayoutSearch);
-        viewPagerSearch= (ViewPager) view.findViewById(R.id.viewPagerSearch);
-        TabLayoutAdapter adapter = new TabLayoutAdapter(getChildFragmentManager());
-        adapter.add(new SearchStoryFragment(),"Story");
-        adapter.add(new SearchUserFragment(),"User");
-        viewPagerSearch.setAdapter(adapter);
-        tabLayoutSearch.setupWithViewPager(viewPagerSearch);
+        listViewNotif= (ListView) view.findViewById(R.id.listViewNotif);
+
 
         return view;
     }
