@@ -2,20 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.bluejack16_2.jrpost.SearchFragment">
+    tools:context="edu.bluejack16_2.jrpost.SearchStoryFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.design.widget.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/tabLayoutSearch"></android.support.design.widget.TabLayout>
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tabLayoutSearch"
-        android:id="@+id/viewPagerSearch"
-        ></android.support.v4.view.ViewPager>
-    <!--<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
@@ -39,7 +29,7 @@
             android:background="@color/colorPrimary"/>
         <Button
             android:id="@+id/btnSearch"
-            android:layout_width="30dp"
+            android:layout_width="15dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/ic_search"
@@ -47,35 +37,11 @@
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/linearLayout2"
-        android:layout_below="@id/linearLayout"
-        android:weightSum="2">
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <RadioButton
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="User"
-                android:layout_weight="1"
-                android:id="@+id/rdUser"/>
-
-            <RadioButton
-                android:id="@+id/rdStory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="Story"/>
-        </RadioGroup>
-    </LinearLayout>
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cmbGenre"
-        android:layout_below="@id/linearLayout2"
+        android:layout_below="@id/linearLayout"
         android:entries="@array/optCmbGenre"></Spinner>
     <ListView
         android:id="@+id/searchResultListView"

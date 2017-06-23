@@ -10,14 +10,14 @@ import android.widget.Toast;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 
-import edu.bluejack16_2.jrpost.adapters.DetailStoryViewAdapter;
+import edu.bluejack16_2.jrpost.adapters.TabLayoutAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
 
 public class DetailStoryActivity extends AppCompatActivity {
 
     ViewPager viewPager;
     TabLayout tabLayout;
-    DetailStoryViewAdapter adapter;
+    TabLayoutAdapter adapter;
     Story currentStory;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class DetailStoryActivity extends AppCompatActivity {
             //Toast.makeText(this, story.getStoryId(), Toast.LENGTH_SHORT).show();
             viewPager= (ViewPager) findViewById(R.id.viewPager);
             tabLayout= (TabLayout) findViewById(R.id.tabLayout);
-            adapter = new DetailStoryViewAdapter(getSupportFragmentManager());
+            adapter = new TabLayoutAdapter(getSupportFragmentManager());
             adapter.add(new DetailStoryFragment(),"Detail");
             adapter.add(new CommentDetailStoryFragment(),"Comment");
             viewPager.setAdapter(adapter);

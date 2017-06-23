@@ -14,13 +14,13 @@ import java.util.ArrayList;
  * Created by RE on 6/21/2017.
  */
 
-public class DetailStoryViewAdapter extends FragmentPagerAdapter {
+public class TabLayoutAdapter extends FragmentPagerAdapter {
 
     ArrayList<Fragment>listOfFragment;
     ArrayList<String>listOfTab;
     Context context;
 
-    public DetailStoryViewAdapter(FragmentManager fm) {
+    public TabLayoutAdapter(FragmentManager fm) {
         super(fm);
         listOfFragment=new ArrayList<>();
         listOfTab=new ArrayList<>();

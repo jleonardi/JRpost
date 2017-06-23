@@ -2,18 +2,14 @@ package edu.bluejack16_2.jrpost;
 
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.Toast;
 
-import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
-import edu.bluejack16_2.jrpost.controllers.StoryController;
+import edu.bluejack16_2.jrpost.adapters.TabLayoutAdapter;
 
 
 /**
@@ -21,10 +17,15 @@ import edu.bluejack16_2.jrpost.controllers.StoryController;
  */
 public class SearchFragment extends Fragment {
 
+    /*
     SearchResultAdapter searchResultAdapter;
     Button searchBtn;
     EditText searchTxt;
     RadioButton rbUser, rbStory;
+    */
+    TabLayoutAdapter adapter;
+    TabLayout tabLayoutSearch;
+    ViewPager viewPagerSearch;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -36,7 +37,16 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
+        tabLayoutSearch = (TabLayout) view.findViewById(R.id.tabLayoutSearch);
+        viewPagerSearch= (ViewPager) view.findViewById(R.id.viewPagerSearch);
+        TabLayoutAdapter adapter = new TabLayoutAdapter(getChildFragmentManager());
+        //addFragment Search user
+        adapter.add(new SearchStoryFragment(),"Story");
+        adapter.add(new SearchUserFragment(),"User");
+        //addFragment Search Story
+        viewPagerSearch.setAdapter(adapter);
+        tabLayoutSearch.setupWithViewPager(viewPagerSearch);
+        /*
         ListView searchResultListView = (ListView) view.findViewById(R.id.searchResultListView);
         searchResultAdapter = new SearchResultAdapter(getContext());
         searchResultListView.setAdapter(searchResultAdapter);
@@ -61,6 +71,7 @@ public class SearchFragment extends Fragment {
                 }
             }
         });
+        */
 
         return view;
     }
