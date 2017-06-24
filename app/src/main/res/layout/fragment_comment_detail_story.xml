@@ -25,5 +25,24 @@
         android:id="@+id/addCommentBtn"
         android:layout_centerHorizontal="true"/>
 
+    <Button
+        android:id="@+id/likeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/addCommentTxt"
+        android:minHeight="39dp"
+        android:minWidth="10dp"
+        android:text="LIKE" />
+
+    <TextView
+        android:id="@+id/likeCountTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/addCommentTxt"
+        android:elegantTextHeight="false"
+        android:text="0 likes" />
+
 
 </RelativeLayout>

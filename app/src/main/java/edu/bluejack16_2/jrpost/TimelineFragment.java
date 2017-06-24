@@ -20,6 +20,7 @@ import java.io.ObjectOutputStream;
 
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.controllers.StoryController;
+import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
 
 
@@ -38,7 +39,7 @@ public class TimelineFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_timeline, container, false);
         try {
             FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-
+            //StoryController.getInstance().dislikeStory(Session.currentUser.getUserId(), "-Kn9t7zTIVDG70gV9Uep");
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

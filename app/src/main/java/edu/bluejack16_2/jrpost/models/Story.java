@@ -16,6 +16,8 @@ public class Story implements Serializable {
     private String currentUser;
     private Date createdAt;
     private User user;
+    private ArrayList<String> likers;
+    private Integer totalLikes;
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Date createdAt) {
         this.storyId = storyId;
@@ -24,6 +26,8 @@ public class Story implements Serializable {
         this.storyGenre = storyGenre;
         this.currentUser = currentUser;
         this.createdAt = createdAt;
+        likers = new ArrayList<>();
+        totalLikes = 0;
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser) {
@@ -33,6 +37,8 @@ public class Story implements Serializable {
         this.storyGenre = storyGenre;
         this.currentUser = currentUser;
         this.createdAt = new Date();
+        likers = new ArrayList<>();
+        totalLikes = 0;
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre) {
@@ -42,10 +48,12 @@ public class Story implements Serializable {
         this.storyGenre = storyGenre;
         this.currentUser = Session.currentUser.getUserId();
         this.createdAt = new Date();
+        likers = new ArrayList<>();
+        totalLikes = 0;
     }
 
     public Story() {
-
+        likers = new ArrayList<>();
     }
 
     public User getUser() {
@@ -102,5 +110,37 @@ public class Story implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public ArrayList<String> getLikers() {
+        return likers;
+    }
+
+    public void setLikers(ArrayList<String> likers) {
+        this.likers = likers;
+    }
+
+    public void like(String userId){
+        likers.add(userId);
+    }
+
+    public void dislike(String userId){
+        likers.remove(userId);
+    }
+
+    public boolean isLike(String userId) {
+        return likers.contains(userId);
+    }
+
+    public Integer getLikersCount() {
+        return likers.size();
+    }
+
+    public Integer getTotalLikes() {
+        return totalLikes;
+    }
+
+    public void setTotalLikes(Integer totalLikes) {
+        this.totalLikes = totalLikes;
     }
 }

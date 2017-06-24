@@ -1,13 +1,17 @@
 package edu.bluejack16_2.jrpost.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Comment;
@@ -60,9 +64,15 @@ public class CommentListAdapter extends BaseAdapter {
 
         TextView usernameTV = (TextView) convertView.findViewById(R.id.commentUsernameTV);
         TextView contentTV = (TextView) convertView.findViewById(R.id.commentContentTV);
+        TextView dateTV = (TextView) convertView.findViewById(R.id.lblDate);
 
         usernameTV.setText(current.getUser().getUsername());
         contentTV.setText(current.getCommentContent());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm - dd MMMM yyyy");
+        DateFormat df = DateFormat.getDateInstance();
+        dateTV.setText(sdf.format(new Date(current.getCreatedAt())));
+        Log.v("TestTanggal", current.getCreatedAt().toString());
+        //dateTV.setText(current.getCreatedAt().toString());
 
         return convertView;
     }

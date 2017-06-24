@@ -1,5 +1,7 @@
 package edu.bluejack16_2.jrpost.models;
 
+import java.util.Date;
+
 /**
  * Created by User on 6/22/2017.
  */
@@ -10,6 +12,7 @@ public class Comment {
     private String userId;
     private String commentContent;
     private User user;
+    private Long createdAt;
 
     public Comment() {
 
@@ -20,6 +23,7 @@ public class Comment {
         this.storyId = storyId;
         this.commentContent = commentContent;
         this.userId = Session.currentUser.getUserId();
+        createdAt = System.currentTimeMillis();
     }
 
     public Comment(String commentId, String storyId, String userId, String commentContent) {
@@ -27,6 +31,7 @@ public class Comment {
         this.storyId = storyId;
         this.userId = userId;
         this.commentContent = commentContent;
+        createdAt = System.currentTimeMillis();
     }
 
     public String getCommentId() {
@@ -67,5 +72,13 @@ public class Comment {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Long createdAt) {
+        this.createdAt = createdAt;
     }
 }

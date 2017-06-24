@@ -13,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 
+import edu.bluejack16_2.jrpost.CommentDetailStoryFragment;
+import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
@@ -110,6 +112,53 @@ public class StoryController {
         });
     }
 
+    public void likeStory(final String userId, final String storyId, final CommentDetailStoryFragment fragment) {
+        Query storyRef = mDatabase.orderByChild("storyId").equalTo(storyId);
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    Story story = ds.getValue(Story.class);
+                    if(!story.isLike(userId)){
+                        story.like(userId);
+                        mDatabase.child(storyId).setValue(story);
+                        fragment.setNewLikeCount(story.getLikersCount());
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void dislikeStory(final String userId, final String storyId, final CommentDetailStoryFragment fragment) {
+        Query storyRef = mDatabase.orderByChild("storyId").equalTo(storyId);
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    try {
+                        Story story = ds.getValue(Story.class);
+                        story.dislike(userId);
+                        mDatabase.child(storyId).setValue(story);
+                        fragment.setNewLikeCount(story.getLikersCount());
+                    } catch(Exception e) {
+                        Log.d("Error Komen", e.getMessage());
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     public void getStoryOnUsername(final SearchResultAdapter adapter, final String searchPattern, final String genre){
         Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
         storyRef.addValueEventListener(new ValueEventListener() {
@@ -151,12 +200,16 @@ public class StoryController {
         followedUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     Follow currentFollowStatus = ds.getValue(Follow.class);
                     Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories").orderByChild("currentUser").equalTo(currentFollowStatus.getFollowedUserId());
                     storyRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+                            adapter.clearStory();
+                            adapter.notifyDataSetChanged();
+                            Log.d("Story Updated", "Waw");
                             for (DataSnapshot ds: dataSnapshot.getChildren()) {
                                 final Story story = ds.getValue(Story.class);
                                 Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
@@ -233,6 +286,21 @@ public class StoryController {
 
                 //loading selesai
                 fragment.progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getStoryOnId(final String StoryId) {
+        Query storyRef = mDatabase;
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
             }
 
             @Override
