@@ -10,6 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import edu.bluejack16_2.jrpost.adapters.NotifViewAdapter;
+import edu.bluejack16_2.jrpost.controllers.NotificationController;
+import edu.bluejack16_2.jrpost.controllers.UserController;
+import edu.bluejack16_2.jrpost.models.Notification;
+import edu.bluejack16_2.jrpost.models.Session;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,7 +34,7 @@ public class NotificationFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_notification, container, false);
-
+        NotifViewAdapter notifViewAdapter = new NotifViewAdapter(getContext());
         FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -43,7 +49,9 @@ public class NotificationFragment extends Fragment {
         });
 
         listViewNotif= (ListView) view.findViewById(R.id.listViewNotif);
-
+        NotificationController.getInstance().getNotif(Session.currentUser.getUserId(),notifViewAdapter);
+        //StoryController.getInstance().getStoryOnFollowedUser(storyViewAdapter,this);
+        listViewNotif.setAdapter(notifViewAdapter);
 
         return view;
     }
