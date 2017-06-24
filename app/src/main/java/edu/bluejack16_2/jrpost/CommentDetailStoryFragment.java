@@ -33,10 +33,10 @@ public class CommentDetailStoryFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_comment_detail_story, container, false);
         currentStory = ((DetailStoryActivity)getActivity()).currentStory;
 
-        ListView commentListView = (ListView) view.findViewById(R.id.commentListView);
+        final ListView commentListView = (ListView) view.findViewById(R.id.commentListView);
         final EditText addComentTxt = (EditText) view.findViewById(R.id.addCommentTxt);
         Button addCommentBtn = (Button) view.findViewById(R.id.addCommentBtn);
-        CommentListAdapter commentListAdapter = new CommentListAdapter(getContext());
+        final CommentListAdapter commentListAdapter = new CommentListAdapter(getContext());
 
 
         CommentController.getInstance().populateComments(commentListAdapter, currentStory.getStoryId());
@@ -47,6 +47,9 @@ public class CommentDetailStoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!addComentTxt.getText().toString().equals("")) {
+                    commentListAdapter.clearComment();
+                    CommentController.getInstance().populateComments(commentListAdapter, currentStory.getStoryId());
+                    commentListView.setAdapter(commentListAdapter);
                     CommentController.getInstance().addComment(currentStory.getStoryId(), addComentTxt.getText().toString());
                 }
             }
