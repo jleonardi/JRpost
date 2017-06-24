@@ -47,7 +47,7 @@ public class UserController {
         return instance;
     }
 
-    public void doLoginWithFbGmail(final String username,final String name,final String password,final Activity activity)
+    public void doLoginWithFbGmail(final String username,final String name,final String password,final LoginActivity activity)
     {
         Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("username").equalTo(username);
 
@@ -56,17 +56,9 @@ public class UserController {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getChildrenCount()==0) //klo usernamenya blom ada
                 {
-                    addNewUser(username,name,password);
+                    addNewUser(username, name, password);
                 }
-                SharedPreferences prefs=PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());;
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("name",name);
-                editor.putString("username",username);
-                editor.commit();
-                Session.currentUser=new User(username,name,password);
-                Intent intent = new Intent(activity,MainActivity.class);
-                activity.startActivity(intent);
-                activity.finish();
+                getUser(username,password,activity);
             }
 
             @Override
@@ -162,12 +154,24 @@ public class UserController {
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
                     String name = ds.child("name").getValue().toString();
                     String username = ds.child("username").getValue().toString();
-                    String password = ds.child("password").getValue().toString();
+                    String password;
+                    try
+                    {
+                        //klo login pake gmail, di firebase a dakde password
+                        //jadi ni error harus a
+                        password= ds.child("password").getValue().toString();
+                    }catch(Exception e)
+                    {
+                        //berarti login pakai gmail
+                        password=null;
+                    }
                     String userId = ds.child("userId").getValue().toString();
                     Session.currentUser = new User(userId, username, name, password);
 
-                    if(!password.equals(login_password))
-                        break;
+                    if(password!=null) { //kalo je password a dak kosong (login biasa)
+                        if (!password.equals(login_password)) //kalo password a dak same
+                            break;
+                    }
 
                     SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                     SharedPreferences.Editor editor = settings.edit();

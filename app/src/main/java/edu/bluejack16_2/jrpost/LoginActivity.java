@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         }
-        final Activity activity = this;
+        final LoginActivity activity = this;
         btnLoginFb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 
             @Override
@@ -101,15 +101,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void onCompleted(JSONObject object, GraphResponse response) {
                                 try {
+                                    //login facebook
                                     String email=object.getString("email");
                                     String name=object.getString("name");
-                                    SharedPreferences.Editor editor = prefs.edit();
-                                    editor.putString("name",name);
-                                    editor.putString("username",email);
-                                    editor.commit();
-                                    Session.currentUser = new User();
-                                    Session.currentUser.setName(name);
-                                    Session.currentUser.setUsername(email);
                                     progressDialog = new ProgressDialog(LoginActivity.this);
                                     progressDialog.setMessage("Please wait");
                                     progressDialog.setCancelable(false);
@@ -167,6 +161,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 progressDialog.setMessage("Please wait");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
+
+                //login biasa
                 UserController.getInstance().getUser(username, password, this);
             }
 
@@ -212,20 +208,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 String email = account.getEmail();
                 //String img_url = account.getPhotoUrl.toString();
 
-                //login pakai gmail
-
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putString("name", name);
-                editor.putString("username", email);
-                editor.commit();
-                Session.currentUser = new User();
-                Session.currentUser.setName(name);
-                Session.currentUser.setUsername(email);
+                //login gmail
                 progressDialog = new ProgressDialog(LoginActivity.this);
                 progressDialog.setMessage("Please wait");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
-                UserController.getInstance().doLoginWithFbGmail(email, name, null, this);
+                LoginActivity activity= this;
+                try {
+                    UserController.getInstance().doLoginWithFbGmail(email, name, null, activity);
+                }catch (Exception e)
+                {
+                    Toast.makeText(activity, 1+"", Toast.LENGTH_SHORT).show();
+                }
             }catch (Exception e)
             {
 
