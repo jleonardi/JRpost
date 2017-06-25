@@ -34,11 +34,20 @@
         android:layout_marginTop="10dp"
         android:text="Horror" />
 
+    <TextView
+        android:id="@+id/storyDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detailStoryGenre"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Date"/>
+
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/detailStoryGenre"
+        android:layout_below="@+id/storyDate"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@android:color/darker_gray" />
@@ -46,10 +55,9 @@
     <ScrollView
         android:id="@+id/detailContentScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="275dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/view"
-        android:minHeight="320dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:layout_centerInParent="true">
@@ -64,7 +72,7 @@
                 android:id="@+id/detailContentTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ini Content" />
+                android:text="@string/lorem" />
         </LinearLayout>
 
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import edu.bluejack16_2.jrpost.adapters.CommentListAdapter;
 import edu.bluejack16_2.jrpost.controllers.CommentController;
+import edu.bluejack16_2.jrpost.controllers.NotificationController;
 import edu.bluejack16_2.jrpost.controllers.StoryController;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -82,10 +83,12 @@ public class CommentDetailStoryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(!addComentTxt.getText().toString().equals("")) {
-                    commentListAdapter.clearComment();
-                    CommentController.getInstance().populateComments(commentListAdapter, currentStory.getStoryId());
-                    commentListView.setAdapter(commentListAdapter);
-                    CommentController.getInstance().addComment(currentStory.getStoryId(), addComentTxt.getText().toString());
+                    //commentListAdapter.clearComment();
+                    //CommentController.getInstance().populateComments(commentListAdapter, currentStory.getStoryId());
+                    //commentListView.setAdapter(commentListAdapter);
+                    CommentController.getInstance().addComment(currentStory.getStoryId(), addComentTxt.getText().toString(), commentListAdapter);
+                    NotificationController.getInstance().addNotif("Commented on your story", Session.currentUser.getUserId(), currentStory.getCurrentUser());
+
                 }
             }
         });

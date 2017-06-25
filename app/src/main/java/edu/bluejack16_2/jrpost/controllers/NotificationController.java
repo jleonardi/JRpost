@@ -29,10 +29,10 @@ public class NotificationController {
         this.mDatabase = FirebaseDatabase.getInstance().getReference("notification");
     }
 
-    public void addNotif(String content,String from,String userId,String date)
+    public void addNotif(String content,String from,String userId)
     {
         String notifId=mDatabase.push().getKey();
-        Notification notif = new Notification(notifId,content,from,userId,date);
+        Notification notif = new Notification(content, from, userId, notifId);
         mDatabase.child(notifId).setValue(notif);
     }
 

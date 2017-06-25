@@ -11,6 +11,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import edu.bluejack16_2.jrpost.adapters.CommentListAdapter;
 import edu.bluejack16_2.jrpost.models.Comment;
+import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.User;
 
 /**
@@ -29,10 +30,13 @@ public class CommentController {
         return instance;
     }
 
-    public void addComment(String storyId, String commentContent) {
+    public void addComment(String storyId, String commentContent, CommentListAdapter adapter) {
         String commentId = mDatabase.push().getKey();
         Comment newComment = new Comment(commentId, storyId, commentContent);
         mDatabase.child(commentId).setValue(newComment);
+        newComment.setUser(Session.currentUser);
+        adapter.addComment(newComment);
+        adapter.notifyDataSetChanged();
     }
 
     public void populateComments(final CommentListAdapter adapter, String storyId) {

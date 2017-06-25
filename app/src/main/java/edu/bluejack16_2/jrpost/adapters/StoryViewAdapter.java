@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -71,14 +73,19 @@ public class StoryViewAdapter extends BaseAdapter{
         TextView  tvCreatedAt = (TextView) convertView.findViewById(R.id.storyRowCreatedAtTV);
         TextView  tvGenre = (TextView) convertView.findViewById(R.id.storyRowGenreTV);
         TextView  tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
+        TextView tvLikers = (TextView) convertView.findViewById(R.id.storyRowLikersCount);
 
         tvStoryTitle.setText(current.getStoryTitle());
         tvUsername.setText(current.getUser().getUsername());
-        //tvCreatedAt.setText(current.getCreatedAt().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm - dd MMMM yyyy");
+        tvCreatedAt.setText(sdf.format(new Date(current.getCreatedAt())));
         tvGenre.setText(current.getStoryGenre());
-        tvContent.setText(current.getStoryContent());
-
-
+        tvLikers.setText(current.getLikersCount().toString() + " likes");
+        if(current.getStoryContent().length() > 50) {
+            tvContent.setText(current.getStoryContent().substring(0, 50));
+        } else {
+            tvContent.setText(current.getStoryContent());
+        }
 
         return convertView;
     }

@@ -92,7 +92,7 @@ public class NotifViewAdapter extends BaseAdapter {
 
         lblNotif.setText(notifications.get(i).getContent());
         lblFrom.setText(notifications.get(i).getFrom());
-        lblDate.setText(notifications.get(i).getDate());
+        lblDate.setText(notifications.get(i).getDate().toString());
 
         return convertView;
     }

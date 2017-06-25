@@ -8,8 +8,8 @@ public class Notification {
     private String content;
     private String from;
     private String userId;
-    private String date;
     private String notifId;
+    private Long date;
 
     public String getContent() {
         return content;
@@ -35,11 +35,11 @@ public class Notification {
         this.userId = userId;
     }
 
-    public String getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -54,18 +54,25 @@ public class Notification {
     public Notification() {
     }
 
-    public Notification(String content, String from, String userId, String date) {
+    public Notification(String content, String from, String userId, Long date) {
         this.content = content;
         this.from = from;
         this.userId = userId;
-        this.date = date;
     }
 
-    public Notification(String notifId,String content, String from, String userId, String date) {
+    public Notification(String notifId,String content, String from, String userId, Long date) {
         this.content = content;
         this.from = from;
         this.userId = userId;
         this.date = date;
         this.notifId = notifId;
+    }
+
+    public Notification(String content, String from, String userId, String notifId) {
+        this.content = content;
+        this.from = from;
+        this.userId = userId;
+        this.notifId = notifId;
+        this.date = System.currentTimeMillis();
     }
 }

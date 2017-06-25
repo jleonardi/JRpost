@@ -14,12 +14,12 @@ public class Story implements Serializable {
     private String storyContent;
     private String storyGenre;
     private String currentUser;
-    private Date createdAt;
+    private Long createdAt;
     private User user;
     private ArrayList<String> likers;
     private Integer totalLikes;
 
-    public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Date createdAt) {
+    public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Long createdAt) {
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -36,7 +36,7 @@ public class Story implements Serializable {
         this.storyContent = storyContent;
         this.storyGenre = storyGenre;
         this.currentUser = currentUser;
-        this.createdAt = new Date();
+        this.createdAt = System.currentTimeMillis();
         likers = new ArrayList<>();
         totalLikes = 0;
     }
@@ -47,7 +47,7 @@ public class Story implements Serializable {
         this.storyContent = storyContent;
         this.storyGenre = storyGenre;
         this.currentUser = Session.currentUser.getUserId();
-        this.createdAt = new Date();
+        this.createdAt = System.currentTimeMillis();
         likers = new ArrayList<>();
         totalLikes = 0;
     }
@@ -104,11 +104,11 @@ public class Story implements Serializable {
         this.currentUser = currentUser;
     }
 
-    public Date getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
