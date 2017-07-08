@@ -50,7 +50,6 @@ public class NotificationFragment extends Fragment {
 
         listViewNotif= (ListView) view.findViewById(R.id.listViewNotif);
         NotificationController.getInstance().getNotif(Session.currentUser.getUserId(),notifViewAdapter);
-        //StoryController.getInstance().getStoryOnFollowedUser(storyViewAdapter,this);
         listViewNotif.setAdapter(notifViewAdapter);
 
         return view;
