@@ -1,5 +1,10 @@
 package edu.bluejack16_2.jrpost.models;
 
+import android.net.Uri;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,8 +24,10 @@ public class Story implements Serializable {
     private ArrayList<String> likers;
     private Integer totalLikes;
     private Boolean image;
+    private StorageReference imageRef;
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Long createdAt) {
+        image = false;
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -32,6 +39,7 @@ public class Story implements Serializable {
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser) {
+        image = false;
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -43,6 +51,7 @@ public class Story implements Serializable {
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre) {
+        image = false;
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.storyContent = storyContent;
@@ -53,7 +62,7 @@ public class Story implements Serializable {
         totalLikes = 0;
     }
 
-    public Story() {
+    public Story()   {
         likers = new ArrayList<>();
         image = false;
     }
@@ -152,5 +161,13 @@ public class Story implements Serializable {
 
     public void setImage(Boolean image) {
         this.image = image;
+    }
+
+    public StorageReference getImageRef() {
+        return imageRef;
+    }
+
+    public void setImageRef(StorageReference imageRef) {
+        this.imageRef = imageRef;
     }
 }

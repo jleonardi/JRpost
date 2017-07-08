@@ -70,11 +70,12 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, story.getStoryTitle()+"", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), DetailStoryActivity.class);
                 try{
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    ObjectOutputStream oos = new ObjectOutputStream(baos);
-                    oos.writeObject(story);
-                    byte[] buf = baos.toByteArray();
-                    intent.putExtra("story", buf);
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    ObjectOutputStream oos = new ObjectOutputStream(baos);
+//                    oos.writeObject(story);
+//                    byte[] buf = baos.toByteArray();
+//                    intent.putExtra("story", buf);
+                    intent.putExtra("story", story.getStoryId());
                     startActivity(intent);
                 }catch (Exception e)
                 {

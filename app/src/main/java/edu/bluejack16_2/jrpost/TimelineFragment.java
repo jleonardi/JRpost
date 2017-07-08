@@ -68,11 +68,12 @@ public class TimelineFragment extends Fragment {
                     //Toast.makeText(getContext(), ((Story)storyViewAdapter.getItem(position)).getStoryId(), Toast.LENGTH_SHORT).show();
                     try {
                         Intent intent = new Intent(view.getContext(), DetailStoryActivity.class);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        ObjectOutputStream oos = new ObjectOutputStream(baos);
-                        oos.writeObject((Story) storyViewAdapter.getItem(position));
-                        byte[] buf = baos.toByteArray();
-                        intent.putExtra("story", buf);
+//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                        ObjectOutputStream oos = new ObjectOutputStream(baos);
+//                        oos.writeObject((Story) storyViewAdapter.getItem(position));
+//                        byte[] buf = baos.toByteArray();
+//                        intent.putExtra("story", buf);
+                        intent.putExtra("story", ((Story)storyViewAdapter.getItem(position)).getStoryId());
 
                         startActivity(intent);
                     }catch (Exception e)

@@ -15,6 +15,7 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StreamDownloadTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.net.URI;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import edu.bluejack16_2.jrpost.CommentDetailStoryFragment;
+import edu.bluejack16_2.jrpost.DetailStoryActivity;
 import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
@@ -228,6 +230,10 @@ public class StoryController {
         });
     }
 
+    public void getStoryById(String id) {
+
+    }
+
     public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {
         Query followedUserRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("userId").equalTo(Session.currentUser.getUserId());
         followedUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -245,6 +251,14 @@ public class StoryController {
                             Log.d("Story Updated", "Waw");
                             for (DataSnapshot ds: dataSnapshot.getChildren()) {
                                 final Story story = ds.getValue(Story.class);
+                                if(story.getImage())
+                                {
+                                    story.setImageRef(storageRef.child(story.getStoryId()));
+                                }
+                                else
+                                {
+                                    story.setImageRef(storageRef.child("noimage.png"));
+                                }
                                 Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
                                 userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -328,12 +342,30 @@ public class StoryController {
         });
     }
 
-    public void getStoryOnId(final String StoryId) {
-        Query storyRef = mDatabase;
+    public void getStoryOnId(final String storyId, final DetailStoryActivity activity) {
+        Query storyRef = mDatabase.orderByChild("storyId").equalTo(storyId);
         storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()){
+                    final Story story = ds.getValue(Story.class);
+                    Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                User usr = ds.getValue(User.class);
+                                story.setUser(usr);
+                                activity.addStory(story);
+                            }
+                        }
 
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
             }
 
             @Override

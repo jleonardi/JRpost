@@ -22,6 +22,10 @@ public class DetailStoryFragment extends Fragment {
 
     Button followBtn;
     Story currentStory;
+    TextView titleTV;
+    TextView usernameTV;
+    TextView genreTV;
+    TextView contentTV;
 
     public DetailStoryFragment() {
         // Required empty public constructor
@@ -34,10 +38,10 @@ public class DetailStoryFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_story, container, false);
 
-        TextView titleTV = (TextView) view.findViewById(R.id.detailStoryTitleTV);
-        TextView usernameTV = (TextView) view.findViewById(R.id.detailUsernameTV);
-        TextView genreTV = (TextView) view.findViewById(R.id.detailStoryGenre);
-        TextView contentTV = (TextView) view.findViewById(R.id.detailContentTV);
+        titleTV = (TextView) view.findViewById(R.id.detailStoryTitleTV);
+        usernameTV = (TextView) view.findViewById(R.id.detailUsernameTV);
+        genreTV = (TextView) view.findViewById(R.id.detailStoryGenre);
+        contentTV = (TextView) view.findViewById(R.id.detailContentTV);
         followBtn = (Button) view.findViewById(R.id.detailFollowUserBtn);
 
         currentStory = ((DetailStoryActivity)getActivity()).currentStory;

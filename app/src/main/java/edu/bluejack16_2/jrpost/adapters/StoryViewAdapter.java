@@ -1,11 +1,15 @@
 package edu.bluejack16_2.jrpost.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,6 +17,7 @@ import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 /**
  * Created by User on 6/21/2017.
@@ -74,6 +79,8 @@ public class StoryViewAdapter extends BaseAdapter{
         TextView  tvGenre = (TextView) convertView.findViewById(R.id.storyRowGenreTV);
         TextView  tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
         TextView tvLikers = (TextView) convertView.findViewById(R.id.storyRowLikersCount);
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.storyRowImageView);
+        Glide.with(context).using(new FirebaseImageLoader()).load(current.getImageRef()).into(imgView);
 
         tvStoryTitle.setText(current.getStoryTitle());
         tvUsername.setText(current.getUser().getUsername());
