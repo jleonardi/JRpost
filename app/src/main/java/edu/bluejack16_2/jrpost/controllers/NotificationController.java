@@ -35,6 +35,7 @@ public class NotificationController {
         String notifId=mDatabase.push().getKey();
         Notification notif = new Notification(content, from, userId, notifId);
         mDatabase.child(notifId).setValue(notif);
+
     }
 
     public void getNotif(String userId,final NotifViewAdapter adapter)
