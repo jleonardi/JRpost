@@ -59,6 +59,7 @@ public class UserStoryListAdapter extends BaseAdapter {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.story_row, parent, false);
         }
+        current.setUser(storyOwner);
 
         TextView tvStoryTitle = (TextView) convertView.findViewById(R.id.storyRowTitleTv);
         TextView  tvUsername = (TextView) convertView.findViewById(R.id.storyRowUsernameTV);

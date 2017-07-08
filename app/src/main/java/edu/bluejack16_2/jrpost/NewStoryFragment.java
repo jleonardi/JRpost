@@ -26,6 +26,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.storage.UploadTask;
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import edu.bluejack16_2.jrpost.controllers.StoryController;
@@ -46,6 +49,7 @@ public class NewStoryFragment extends Fragment {
     Button btnChoose;
     String filePath;
     public ProgressDialog progressDialog;
+    Uri fileURI;
     public NewStoryFragment() {
 
     }
@@ -69,6 +73,11 @@ public class NewStoryFragment extends Fragment {
                     Bitmap yourSelectedImage = BitmapFactory.decodeFile(filePath);
                     Drawable d = new BitmapDrawable(yourSelectedImage);
                     imgView.setBackground(d);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    yourSelectedImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    //StoryController.getInstance().uploadImage(data.getData());
+                    fileURI = data.getData();
+
                 }
                 break;
 
@@ -80,6 +89,7 @@ public class NewStoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_new_story, container, false);
+        fileURI = null;
 
         try {
             txtStory = (EditText) view.findViewById(R.id.txtStory);
@@ -130,7 +140,7 @@ public class NewStoryFragment extends Fragment {
                         progressDialog.setMessage("Please wait");
                         progressDialog.setCancelable(false);
                         progressDialog.show();
-                        StoryController.getInstance().addStory(title,story,genre,fragment);
+                        StoryController.getInstance().addStory(title,story,genre,fileURI,fragment);
 
 
                         Toast.makeText(view.getContext(), "Your Story has been published", Toast.LENGTH_SHORT).show();

@@ -9,6 +9,7 @@ public class Notification {
     private String from;
     private String userId;
     private String notifId;
+    private String type;
     private Long date;
 
     public String getContent() {
@@ -74,5 +75,13 @@ public class Notification {
         this.userId = userId;
         this.notifId = notifId;
         this.date = System.currentTimeMillis();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

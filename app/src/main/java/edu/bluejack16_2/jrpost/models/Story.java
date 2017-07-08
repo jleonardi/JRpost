@@ -18,6 +18,7 @@ public class Story implements Serializable {
     private User user;
     private ArrayList<String> likers;
     private Integer totalLikes;
+    private Boolean image;
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser, Long createdAt) {
         this.storyId = storyId;
@@ -54,6 +55,7 @@ public class Story implements Serializable {
 
     public Story() {
         likers = new ArrayList<>();
+        image = false;
     }
 
     public User getUser() {
@@ -142,5 +144,13 @@ public class Story implements Serializable {
 
     public void setTotalLikes(Integer totalLikes) {
         this.totalLikes = totalLikes;
+    }
+
+    public Boolean getImage() {
+        return image;
+    }
+
+    public void setImage(Boolean image) {
+        this.image = image;
     }
 }

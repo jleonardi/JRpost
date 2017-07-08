@@ -1,7 +1,11 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,7 +13,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -32,20 +40,45 @@ import edu.bluejack16_2.jrpost.models.User;
 public class StoryController {
     private static StoryController instance = new StoryController();
     private DatabaseReference mDatabase;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     private StoryController() {
         mDatabase = FirebaseDatabase.getInstance().getReference("stories");
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference("images").child("users");
+    }
+
+    public void uploadImage(Uri filePath) {
+        UploadTask uploadTask = storageRef.putFile(filePath);
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Log.v("Tag", "Imba");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.v("Tag", e.getMessage());
+            }
+        });
     }
 
     public static StoryController getInstance() {
         return instance;
     }
 
-    public void addStory(String storyTitle, String storyContent, String storyGenre, final NewStoryFragment fragment) {
+    public void addStory(String storyTitle, String storyContent, String storyGenre, Uri image, final NewStoryFragment fragment) {
         String storyId = mDatabase.push().getKey();
         Story newStory = new Story(storyId, storyTitle, storyContent, storyGenre);
         mDatabase.child(storyId).setValue(newStory);
-        fragment.progressDialog.dismiss();
+        storageRef.child(storyId).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                fragment.progressDialog.dismiss();
+            }
+        });
+
     }
 
     public void getStoryOnUserId(String userId, final UserStoryListAdapter adapter) {
