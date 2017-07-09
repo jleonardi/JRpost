@@ -46,17 +46,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/storyRowTitleTv"/>
             <TextView
                 android:layout_below="@+id/storyRowTitleTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Username"
                 android:id="@+id/storyRowUsernameTV"/>
             <TextView
                 android:layout_below="@+id/storyRowUsernameTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:text="Genre"
                 android:id="@+id/storyRowGenreTV"/>
             <TextView
@@ -64,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1 likes"
+                android:layout_marginLeft="10dp"
                 android:id="@+id/storyRowLikersCount"/>
         </RelativeLayout>
 

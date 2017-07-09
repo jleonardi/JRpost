@@ -230,10 +230,6 @@ public class StoryController {
         });
     }
 
-    public void getStoryById(String id) {
-
-    }
-
     public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {
         Query followedUserRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("userId").equalTo(Session.currentUser.getUserId());
         followedUserRef.addListenerForSingleValueEvent(new ValueEventListener() {

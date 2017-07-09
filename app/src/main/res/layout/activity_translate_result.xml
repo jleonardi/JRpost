@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     tools:context="edu.bluejack16_2.jrpost.TranslateResultActivity">
 
     <LinearLayout
@@ -11,12 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:gravity="center"
         android:orientation="horizontal"
         android:id="@+id/linearLayout4">
+
         <TextView
-            android:text="Translate Result"
+            android:id="@+id/textView8"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Translate Result" />
     </LinearLayout>
 
     <TextView
@@ -25,5 +29,6 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout4"
+        android:layout_marginTop="20dp"
         android:text="@string/lorem" />
 </RelativeLayout>
