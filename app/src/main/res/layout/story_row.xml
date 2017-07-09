@@ -13,11 +13,14 @@
         android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:id="@+id/linearLayout2">
+
         <TextView
-            android:text="30/03/1997"
+            android:id="@+id/storyRowCreatedAtTV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/storyRowCreatedAtTV"/>
+            android:text="30/03/1997"
+            android:layout_margin="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
     </LinearLayout>
 
     <LinearLayout
@@ -40,41 +43,58 @@
         </LinearLayout>
 
         <RelativeLayout
+            android:layout_marginLeft="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
+                android:id="@+id/storyRowTitleTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
-                android:id="@+id/storyRowTitleTv"/>
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
             <TextView
+                android:id="@+id/storyRowGenreTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/storyRowTitleTv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Username"
-                android:id="@+id/storyRowUsernameTV"/>
-            <TextView
-                android:layout_below="@+id/storyRowUsernameTV"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:text="Genre"
-                android:id="@+id/storyRowGenreTV"/>
+                android:layout_marginTop="2.5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
             <TextView
-                android:layout_below="@+id/storyRowGenreTV"
+                android:id="@+id/storyRowUsernameTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/storyRowGenreTV"
+                android:gravity="end"
+                android:text="Username"
+                android:layout_marginTop="2.5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+            <TextView
+                android:id="@+id/storyRowLikersCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/storyRowUsernameTV"
+                android:gravity="end"
                 android:text="1 likes"
-                android:id="@+id/storyRowLikersCount"/>
+                android:layout_marginTop="2.5dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
         </RelativeLayout>
 
     </LinearLayout>
 
     <TextView
-        android:layout_below="@+id/linearLayout3"
+        android:id="@+id/storyRowContentTV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout3"
         android:text="@string/lorem50"
-        android:id="@+id/storyRowContentTV"/>
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <View
         android:id="@+id/view"

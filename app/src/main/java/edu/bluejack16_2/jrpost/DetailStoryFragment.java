@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import edu.bluejack16_2.jrpost.controllers.FollowController;
+import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
 
 
@@ -50,7 +52,19 @@ public class DetailStoryFragment extends Fragment {
         genreTV.setText(currentStory.getStoryGenre());
         contentTV.setText(currentStory.getStoryContent());
 
-        FollowController.getInstance().checkFollowUser(this, currentStory.getCurrentUser());
+        if(Session.currentUser.getUserId().equals(currentStory.getUser().getUserId())) {
+            followBtn.setText("Update Story");
+            followBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), UpdateStoryActivity.class);
+                    intent.putExtra("storyId", currentStory.getStoryId());
+                    startActivity(intent);
+                }
+            });
+        } else {
+            FollowController.getInstance().checkFollowUser(this, currentStory.getCurrentUser());
+        }
 
 //        followBtn.setOnClickListener(new View.OnClickListener() {
 //            @Override
