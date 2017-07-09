@@ -28,11 +28,8 @@ import edu.bluejack16_2.jrpost.DetailStoryActivity;
 import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
-<<<<<<< HEAD
 import edu.bluejack16_2.jrpost.UpdateStoryActivity;
-=======
 import edu.bluejack16_2.jrpost.adapters.CurrentProfileAdapter;
->>>>>>> db2691e7329918d192d259cbded898615779c734
 import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.adapters.UserStoryListAdapter;
@@ -472,36 +469,40 @@ public class StoryController {
     }
 
     public void updateStory(final String storyId, final String storyTitle, final String storyContent, final String storyGenre, final Uri image, final UpdateStoryActivity activity) {
-        Query userRef = mDatabase.orderByChild("storyId").equalTo(storyId);
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()){
-                    final Story story = ds.getValue(Story.class);
-                    story.setStoryTitle(storyTitle);
-                    story.setStoryContent(storyContent);
-                    story.setStoryGenre(storyGenre);
-                    if(image != null) {
-                        storageRef.child(storyId).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                story.setImage(true);
-                                mDatabase.child(storyId).setValue(story);
-                                activity.finish();
-                            }
-                        });
-                    } else {
-                        mDatabase.child(storyId).setValue(story);
-                        activity.finish();
+        try {
+            Query userRef = mDatabase.orderByChild("storyId").equalTo(storyId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        final Story story = ds.getValue(Story.class);
+                        story.setStoryTitle(storyTitle);
+                        story.setStoryContent(storyContent);
+                        story.setStoryGenre(storyGenre);
+                        if (image != null) {
+                            storageRef.child(storyId).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    story.setImage(true);
+                                    mDatabase.child(storyId).setValue(story);
+                                    activity.finish();
+                                }
+                            });
+                        } else {
+                            mDatabase.child(storyId).setValue(story);
+                            activity.finish();
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        } catch (Exception e) {
+            Log.d("UpdateTag", e.getMessage());
+        }
     }
 
     public void deleteStory(String storyId, DetailStoryActivity activity) {

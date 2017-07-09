@@ -46,6 +46,7 @@
         <activity android:name=".TranslateChoiceActivity" />
         <activity android:name=".TranslateResultActivity" />
         <activity android:name=".CurrentUserProfileActivity"></activity>
+        <activity android:name=".UpdateStoryActivity"></activity>
     </application>
 
 </manifest>

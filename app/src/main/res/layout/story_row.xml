@@ -52,41 +52,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Title"
-<<<<<<< HEAD
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-
-=======
-                android:layout_marginLeft="10dp"
-                android:id="@+id/storyRowTitleTv"/>
->>>>>>> db2691e7329918d192d259cbded898615779c734
             <TextView
-                android:id="@+id/storyRowGenreTV"
+                android:layout_below="@+id/storyRowTitleTv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:layout_below="@+id/storyRowTitleTv"
+                android:layout_alignParentStart="true"
                 android:text="Genre"
-                android:layout_marginTop="2.5dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
-=======
-                android:layout_marginLeft="10dp"
-                android:text="Username"
-                android:id="@+id/storyRowUsernameTV"/>
->>>>>>> db2691e7329918d192d259cbded898615779c734
+                android:id="@+id/storyRowGenreTV"/>
             <TextView
                 android:id="@+id/storyRowUsernameTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:layout_alignParentStart="true"
-=======
-                android:layout_marginLeft="10dp"
-                android:text="Genre"
-                android:id="@+id/storyRowGenreTV"/>
-            <TextView
->>>>>>> db2691e7329918d192d259cbded898615779c734
                 android:layout_below="@+id/storyRowGenreTV"
                 android:gravity="end"
                 android:text="Username"
@@ -100,13 +78,8 @@
                 android:layout_below="@+id/storyRowUsernameTV"
                 android:gravity="end"
                 android:text="1 likes"
-<<<<<<< HEAD
                 android:layout_marginTop="2.5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-=======
-                android:layout_marginLeft="10dp"
-                android:id="@+id/storyRowLikersCount"/>
->>>>>>> db2691e7329918d192d259cbded898615779c734
         </RelativeLayout>
 
     </LinearLayout>

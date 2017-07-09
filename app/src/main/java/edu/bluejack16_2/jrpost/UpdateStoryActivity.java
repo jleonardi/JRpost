@@ -42,7 +42,7 @@ public class UpdateStoryActivity extends AppCompatActivity {
     private static final int SELECTED_PICTURE = 1;
     ImageView imgView;
     Button btnChoose;
-    String filePath;
+    String filePath = "";
     public ProgressDialog progressDialog;
     Uri fileURI;
     Story currentStory;
@@ -112,32 +112,28 @@ public class UpdateStoryActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        try {
+            int id = item.getItemId();
 
-        int id = item.getItemId();
-
-        if(id == R.id.updateMenu)
-        {
+            if (id == R.id.updateMenu) {
 
 //            Intent intent = new Intent(getApplicationContext(), TranslateChoiceActivity.class);
 //            intent.putExtra("content", currentStory.getStoryContent());
 //            startActivity(intent);
-            String story = txtStory.getText().toString();
-            String title = txtTitle.getText().toString();
-            String genre = spinGenre.getSelectedItem().toString();
-            if (story.length() == 0) {
-                Toast.makeText(getApplicationContext(), "Story must be filled", Toast.LENGTH_SHORT).show();
-            } else if (title.length() == 0) {
-                Toast.makeText(getApplicationContext(), "Title of the Story must be filled", Toast.LENGTH_SHORT).show();
+                String story = txtStory.getText().toString();
+                String title = txtTitle.getText().toString();
+                String genre = spinGenre.getSelectedItem().toString();
+                if (story.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Story must be filled", Toast.LENGTH_SHORT).show();
+                } else if (title.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Title of the Story must be filled", Toast.LENGTH_SHORT).show();
+                } else {
+                    //Update Here
+                    StoryController.getInstance().updateStory(currentStory.getStoryId(), title, story, genre, fileURI, this);
+                }
             }
-            else if(filePath.length()==0)
-            {
-                Toast.makeText(getApplicationContext(), "Please Choose Image for the Cover", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                //Update Here
-                StoryController.getInstance().updateStory(currentStory.getStoryId(), title, story, genre, fileURI, this );
-            }
+        } catch(Exception e) {
+            Log.d("UpdateTag", e.getMessage());
         }
         return super.onOptionsItemSelected(item);
     }

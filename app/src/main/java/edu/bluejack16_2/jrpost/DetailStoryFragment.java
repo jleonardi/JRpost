@@ -4,6 +4,7 @@ package edu.bluejack16_2.jrpost;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,19 +52,26 @@ public class DetailStoryFragment extends Fragment {
         usernameTV.setText("By: " + currentStory.getUser().getUsername());
         genreTV.setText(currentStory.getStoryGenre());
         contentTV.setText(currentStory.getStoryContent());
-
-        if(Session.currentUser.getUserId().equals(currentStory.getUser().getUserId())) {
-            followBtn.setText("Update Story");
-            followBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getContext(), UpdateStoryActivity.class);
-                    intent.putExtra("storyId", currentStory.getStoryId());
-                    startActivity(intent);
-                }
-            });
-        } else {
-            FollowController.getInstance().checkFollowUser(this, currentStory.getCurrentUser());
+        try {
+            if (Session.currentUser.getUserId().equals(currentStory.getUser().getUserId())) {
+                followBtn.setText("Update Story");
+                followBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent intent = new Intent(getContext(), UpdateStoryActivity.class);
+                            intent.putExtra("storyId", currentStory.getStoryId());
+                            startActivity(intent);
+                        }catch(Exception e) {
+                            Log.d("UpdateTag", e.getMessage());
+                        }
+                    }
+                });
+            } else {
+                FollowController.getInstance().checkFollowUser(this, currentStory.getCurrentUser());
+            }
+        } catch(Exception e) {
+            Log.d("UpdateTag", e.getMessage());
         }
 
 //        followBtn.setOnClickListener(new View.OnClickListener() {
