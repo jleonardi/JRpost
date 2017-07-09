@@ -14,6 +14,7 @@ import java.util.List;
 
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.models.User;
 
 /**
  * Created by RE on 7/8/2017.
@@ -33,16 +34,41 @@ public class LeaderboardController {
 
     public void getByGenre(final String genre, final StoryViewAdapter adapter)
     {
-        Query storyRef = mDatabase.orderByChild("storyGenre").equalTo(genre);
+        Query storyRef = null;
+        if(genre.equals("All Genre")){
+            storyRef = mDatabase;
+        } else {
+            storyRef = mDatabase.orderByChild("storyGenre").equalTo(genre);
+        }
+
         Log.d("Leaderboard",genre);
         storyRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    Story story = ds.getValue(Story.class);
-                    Log.d("Liderbod",story.getStoryTitle());
-                    adapter.addStory(story);
-                    adapter.notifyDataSetChanged();
+                try {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        final Story story = ds.getValue(Story.class);
+                        Log.d("Leaderboard", story.getStoryTitle());
+                        Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
+                        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                    User usr = ds.getValue(User.class);
+                                    story.setUser(usr);
+                                    adapter.addStory(story);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
+                } catch(Exception e) {
+                    Log.d("Leaderboard Error", e.getMessage());
                 }
             }
 
