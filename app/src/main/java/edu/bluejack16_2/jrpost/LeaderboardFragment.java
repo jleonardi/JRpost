@@ -2,6 +2,7 @@ package edu.bluejack16_2.jrpost;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
+
+import java.util.Collection;
 
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.controllers.LeaderboardController;
@@ -34,6 +37,17 @@ public class LeaderboardFragment extends Fragment {
         spinner = (Spinner) view.findViewById(R.id.spinner);
         final ListView listViewLeaderBoard= (ListView) view.findViewById(R.id.listViewLeaderBoard);
         final StoryViewAdapter adapter = new StoryViewAdapter(getContext());
+        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().setTitle("New Story");
+                NewStoryFragment newStoryFragment= new NewStoryFragment();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayout,newStoryFragment);
+                fragmentTransaction.commit();
+            }
+        });
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -50,6 +64,7 @@ public class LeaderboardFragment extends Fragment {
         });
 
         try {
+            adapter.sortByLike();
             listViewLeaderBoard.setAdapter(adapter);
         }catch (Exception e)
         {

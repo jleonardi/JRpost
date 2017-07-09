@@ -1,19 +1,21 @@
 package edu.bluejack16_2.jrpost.models;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
  * Created by User on 6/20/2017.
  */
 
-public class Story implements Serializable {
+public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
     private String storyId;
     private String storyTitle;
     private String storyContent;
@@ -169,5 +171,15 @@ public class Story implements Serializable {
 
     public void setImageRef(StorageReference imageRef) {
         this.imageRef = imageRef;
+    }
+
+    @Override
+    public int compare(Story story, Story t1) {
+        return story.getLikersCount()-t1.getLikersCount();
+    }
+
+    @Override
+    public int compareTo(@NonNull Story story) {
+        return 0;
     }
 }

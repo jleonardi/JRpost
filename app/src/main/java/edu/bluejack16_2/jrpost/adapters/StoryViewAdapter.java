@@ -13,6 +13,9 @@ import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
@@ -23,7 +26,7 @@ import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
  * Created by User on 6/21/2017.
  */
 
-public class StoryViewAdapter extends BaseAdapter{
+public class StoryViewAdapter extends BaseAdapter {
 
     ArrayList<Story> stories;
     Context context;
@@ -35,6 +38,34 @@ public class StoryViewAdapter extends BaseAdapter{
 
     public void addStory(Story story) {
         stories.add(story);
+    }
+
+    public void pushMidStory(Story story)
+    {
+        if(stories.size()==0)
+        {
+            stories.add(story);
+        }
+        else if(story.getLikersCount()<=stories.get(stories.size()-1).getLikersCount())
+        {
+            stories.add(story);
+        }
+        else
+        {
+            for(int i=0;i<stories.size();i++)
+            {
+                if(story.getLikersCount()>=stories.get(i).getLikersCount())
+                {
+                    stories.add(i,story);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void sortByLike()
+    {
+        Collections.sort(stories);
     }
 
     public void clearStory() {

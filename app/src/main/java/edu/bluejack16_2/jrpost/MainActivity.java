@@ -16,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -70,6 +72,18 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         //set name di header a user yang lagi login
         View headerView = navigationView.getHeaderView(0);
+        ImageView profPic = (ImageView) headerView.findViewById(R.id.imageView);
+        profPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    startActivity(new Intent(getApplicationContext(), CurrentUserProfileActivity.class));
+                }catch (Exception e)
+                {
+                    Toast.makeText(MainActivity.this, e+"", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         TextView lblName = (TextView) headerView.findViewById(R.id.lblName);
         TextView lblUsername = (TextView) headerView.findViewById(R.id.lblUsername);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
