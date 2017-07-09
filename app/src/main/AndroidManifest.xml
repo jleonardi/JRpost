@@ -43,7 +43,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".TranslateChoiceActivity"></activity>
+        <activity android:name=".TranslateChoiceActivity" />
+        <activity android:name=".TranslateResultActivity"></activity>
     </application>
 
 </manifest>

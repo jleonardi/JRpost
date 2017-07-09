@@ -15,6 +15,7 @@ import java.io.ObjectInputStream;
 import edu.bluejack16_2.jrpost.adapters.TabLayoutAdapter;
 import edu.bluejack16_2.jrpost.controllers.StoryController;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.tasks.ReadAvailableLanguageTask;
 
 public class DetailStoryActivity extends AppCompatActivity {
 
@@ -43,7 +44,9 @@ public class DetailStoryActivity extends AppCompatActivity {
 
         if(id == R.id.translateMenu)
         {
-            
+            Intent intent = new Intent(getApplicationContext(), TranslateChoiceActivity.class);
+            intent.putExtra("content", currentStory.getStoryContent());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
