@@ -18,6 +18,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StreamDownloadTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.Console;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,6 +28,7 @@ import edu.bluejack16_2.jrpost.DetailStoryActivity;
 import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.NewStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
+import edu.bluejack16_2.jrpost.adapters.CurrentProfileAdapter;
 import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.adapters.UserStoryListAdapter;
@@ -81,6 +83,34 @@ public class StoryController {
             }
         });
 
+    }
+
+    public void getStoryOnUserId(String userId, final CurrentProfileAdapter adapter) {
+        Query storyRef = mDatabase.orderByChild("currentUser").equalTo(userId);
+        Log.d("11 anjay",userId);
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    Story story = ds.getValue(Story.class);
+                    if(story.getImage())
+                    {
+                        story.setImageRef(storageRef.child(story.getStoryId()));
+                    }
+                    else
+                    {
+                        story.setImageRef(storageRef.child("noimage.png"));
+                    }
+                    adapter.add(story);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getStoryOnUserId(String userId, final UserStoryListAdapter adapter) {

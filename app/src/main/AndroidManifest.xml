@@ -44,7 +44,8 @@
         </service>
 
         <activity android:name=".TranslateChoiceActivity" />
-        <activity android:name=".TranslateResultActivity"></activity>
+        <activity android:name=".TranslateResultActivity" />
+        <activity android:name=".CurrentUserProfileActivity"></activity>
     </application>
 
 </manifest>
