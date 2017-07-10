@@ -55,7 +55,6 @@ public class SearchStoryFragment extends Fragment {
                 searchResultAdapter.clearAll();
                 searchResultAdapter.notifyDataSetChanged();
                 StoryController.getInstance().getStoryOnSearchTitle(searchResultAdapter, txtSearch.getText().toString(),genre);
-                Toast.makeText(view.getContext(), genre, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -63,7 +62,6 @@ public class SearchStoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Story story = (Story) searchResultAdapter.getItem(i);
-                //Toast.makeText(view.getContext(), story.getStoryTitle()+"", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(view.getContext(), DetailStoryActivity.class);
                 try{
 //                    ByteArrayOutputStream baos = new ByteArrayOutputStream();

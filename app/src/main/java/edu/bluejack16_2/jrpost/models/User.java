@@ -1,5 +1,7 @@
 package edu.bluejack16_2.jrpost.models;
 
+import com.google.firebase.storage.StorageReference;
+
 import java.io.Serializable;
 
 /**
@@ -11,9 +13,27 @@ public class User implements Serializable{
     private String username;
     private String name;
     private String password;
+    private boolean image;
+    private StorageReference imageRef;
+
+    public StorageReference getImageRef() {
+        return imageRef;
+    }
+
+    public void setImageRef(StorageReference imageRef) {
+        this.imageRef = imageRef;
+    }
 
     public User() {
 
+    }
+
+    public boolean getImage() {
+        return image;
+    }
+
+    public void setImage(boolean image) {
+        this.image = image;
     }
 
     public User(String userId, String username, String name, String password) {

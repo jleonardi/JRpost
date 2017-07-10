@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost.controllers;
 
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.ListView;
 
@@ -12,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
+import edu.bluejack16_2.jrpost.LeaderboardFragment;
+import edu.bluejack16_2.jrpost.LoginActivity;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.models.User;
@@ -40,9 +43,10 @@ public class LeaderboardController {
         } else {
             storyRef = mDatabase.orderByChild("storyGenre").equalTo(genre);
         }
-
+        adapter.clearStory();
+        adapter.notifyDataSetChanged();
         Log.d("Leaderboard",genre);
-        storyRef.addValueEventListener(new ValueEventListener() {
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 try {
@@ -53,6 +57,7 @@ public class LeaderboardController {
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
+
                                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
                                     User usr = ds.getValue(User.class);
                                     story.setUser(usr);

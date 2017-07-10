@@ -7,7 +7,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:id="@+id/imgStory"
-        android:background="@color/colorPrimary"/>
+    />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -28,19 +28,5 @@
         android:layout_height="50dp"
         android:layout_toEndOf="@id/lblTitle"
         android:gravity="right">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/lblTitle"
-            android:text="Edit"
-            android:id="@+id/btnEdit"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnEdit"
-            android:text="Delete"
-            android:id="@+id/btnDelete"/>
     </RelativeLayout>
 </RelativeLayout>

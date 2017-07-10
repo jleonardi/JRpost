@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -16,12 +18,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import edu.bluejack16_2.jrpost.LoginActivity;
 import edu.bluejack16_2.jrpost.MainActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
 import edu.bluejack16_2.jrpost.adapters.UserListAdapter;
 import edu.bluejack16_2.jrpost.models.Session;
+import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.models.User;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -38,9 +44,13 @@ public class UserController {
     private DatabaseReference mDatabase;
     private static UserController instance = new UserController();
     private String login_password;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     private UserController() {
         mDatabase = FirebaseDatabase.getInstance().getReference("users");
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference("images").child("users");
     }
 
     public static UserController getInstance() {
@@ -67,6 +77,47 @@ public class UserController {
             }
         });
     }
+
+    public void changeProfilePicture(final Uri image) {
+        final String userId = Session.currentUser.getUserId();
+        Query userRef = mDatabase.orderByChild("userId").equalTo(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    final User user = ds.getValue(User.class);
+                    if (image != null) {
+                        storageRef.child(userId).putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                user.setImage(true);
+                                mDatabase.child(userId).setValue(user);
+                            }
+                        });
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getProfilePicture()
+    {
+        if(Session.currentUser.getImage()==true)
+        {
+            Session.currentUser.setImageRef(storageRef.child(Session.currentUser.getUserId()));
+        }
+        else
+        {
+            Session.currentUser.setImageRef(storageRef.child("noimage.png"));
+        }
+
+    }
+
 
     public void doRegister(final String username,final String name,final String password,final Activity activity)
     {

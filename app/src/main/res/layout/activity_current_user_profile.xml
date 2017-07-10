@@ -13,6 +13,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:id="@+id/imgProfile"/>
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnChangePhoto"
+        android:text="Change Profile Picture"
+        android:layout_below="@+id/lblUsername"
+        android:layout_centerHorizontal="true" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listViewProf"
-        android:layout_below="@id/lblUsername"
+        android:layout_below="@id/btnChangePhoto"
         android:layout_marginTop="10dp"
         ></ListView>
 </RelativeLayout>

@@ -51,7 +51,7 @@ public class StoryController {
     private StoryController() {
         mDatabase = FirebaseDatabase.getInstance().getReference("stories");
         storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference("images").child("users");
+        storageRef = storage.getReference("images").child("stories");
     }
 
     public void uploadImage(Uri filePath) {
@@ -362,13 +362,6 @@ public class StoryController {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
-//                    String storyTitle = ds.child("storyTitle").getValue().toString();
-//                    String storyContent = ds.child("storyContent").getValue().toString();
-//                    String storyGenre = ds.child("storyGenre").getValue().toString();
-//                    String currentUser = ds.child("currentUser").getValue().toString();
-//                    //Date createdAt = (Date) ds.child("createdAt").getValue();
-//                    String storyId = ds.child("storyId").getValue().toString();
-//                    Story story = new Story(storyId, storyTitle, storyContent, storyGenre, currentUser);
                     final Story story = ds.getValue(Story.class);
                     Query userRef = FirebaseDatabase.getInstance().getReference().child("users").orderByChild("userId").equalTo(story.getCurrentUser());
                     userRef.addValueEventListener(new ValueEventListener() {
@@ -472,7 +465,7 @@ public class StoryController {
         try {
             Query userRef = mDatabase.orderByChild("storyId").equalTo(storyId);
             userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
+                    @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         final Story story = ds.getValue(Story.class);

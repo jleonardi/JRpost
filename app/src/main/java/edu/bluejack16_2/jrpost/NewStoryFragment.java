@@ -117,9 +117,8 @@ public class NewStoryFragment extends Fragment {
             spinGenre.setAdapter(adapter);
             final NewStoryFragment fragment = this;
 
-            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
-            fab.setImageResource(R.drawable.ic_menu_share);
-            fab.setOnClickListener(new View.OnClickListener() {
+            Button btnAdd = (Button) view.findViewById(R.id.btnAdd);
+            btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     String story = txtStory.getText().toString();

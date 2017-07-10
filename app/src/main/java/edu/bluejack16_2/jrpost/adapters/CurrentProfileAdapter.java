@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import edu.bluejack16_2.jrpost.R;
+import edu.bluejack16_2.jrpost.UpdateStoryActivity;
 import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
@@ -55,8 +57,9 @@ public class CurrentProfileAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        Story current = stories.get(position);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final Story current = stories.get(position);
+        final View view = convertView;
         if(convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.story_current_profile_row, parent, false);
@@ -67,21 +70,6 @@ public class CurrentProfileAdapter extends BaseAdapter {
 
         TextView lblTitle = (TextView) convertView.findViewById(R.id.lblTitle);
         lblTitle.setText(stories.get(position).getStoryTitle());
-
-        Button btnEdit = (Button) convertView.findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        Button btnDelete = (Button) convertView.findViewById(R.id.btnDelete);
-        btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         return convertView;
     }

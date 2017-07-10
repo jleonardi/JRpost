@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -25,15 +26,17 @@ import edu.bluejack16_2.jrpost.controllers.StoryController;
 public class LeaderboardFragment extends Fragment {
 
     Spinner spinner;
+    public static View view;
+    public static ProgressDialog progressDialog;
     public LeaderboardFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+
         spinner = (Spinner) view.findViewById(R.id.spinner);
         final ListView listViewLeaderBoard= (ListView) view.findViewById(R.id.listViewLeaderBoard);
         final StoryViewAdapter adapter = new StoryViewAdapter(getContext());

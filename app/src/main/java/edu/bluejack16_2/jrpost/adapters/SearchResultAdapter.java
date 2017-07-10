@@ -5,12 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 /**
  * Created by User on 6/22/2017.
@@ -63,6 +67,9 @@ public class SearchResultAdapter extends BaseAdapter{
         TextView tvCreatedAt = (TextView) convertView.findViewById(R.id.storyRowCreatedAtTV);
         TextView tvGenre = (TextView) convertView.findViewById(R.id.storyRowGenreTV);
         TextView tvContent = (TextView) convertView.findViewById(R.id.storyRowContentTV);
+
+        ImageView imgView = (ImageView) convertView.findViewById(R.id.storyRowImageView);
+        Glide.with(context).using(new FirebaseImageLoader()).load(current.getImageRef()).into(imgView);
 
         tvStoryTitle.setText(current.getStoryTitle());
         tvUsername.setText(current.getUser().getUsername());
