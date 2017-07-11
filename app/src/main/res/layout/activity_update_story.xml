@@ -87,12 +87,13 @@
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine" />
             </ScrollView>
+
             <Button
+                android:id="@+id/updateBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update Story"
                 android:layout_below="@id/scrollView"
-                />
+                android:text="Update Story" />
         </RelativeLayout>
 
     </ScrollView>

@@ -33,7 +33,9 @@ import edu.bluejack16_2.jrpost.adapters.CurrentProfileAdapter;
 import edu.bluejack16_2.jrpost.adapters.SearchResultAdapter;
 import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.adapters.UserStoryListAdapter;
+import edu.bluejack16_2.jrpost.models.Comment;
 import edu.bluejack16_2.jrpost.models.Follow;
+import edu.bluejack16_2.jrpost.models.Notification;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.models.User;
@@ -479,11 +481,19 @@ public class StoryController {
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     story.setImage(true);
                                     mDatabase.child(storyId).setValue(story);
+                                    Log.d("UpdateGambar", "Sukses");
+                                    activity.progressDialog.dismiss();
                                     activity.finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("UpdateGambar", "gagal");
                                 }
                             });
                         } else {
                             mDatabase.child(storyId).setValue(story);
+                            activity.progressDialog.dismiss();
                             activity.finish();
                         }
                     }
@@ -501,6 +511,36 @@ public class StoryController {
 
     public void deleteStory(String storyId, DetailStoryActivity activity) {
         mDatabase.child(storyId).setValue(null);
+        Query commentQuery = FirebaseDatabase.getInstance().getReference("comments").orderByChild("storyId").equalTo(storyId);
+        commentQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    Comment comment = ds.getValue(Comment.class);
+                    FirebaseDatabase.getInstance().getReference("comments").child(comment.getCommentId()).setValue(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        Query notifQuery = FirebaseDatabase.getInstance().getReference("notification").orderByChild("storyId").equalTo(storyId);
+        notifQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    Notification notif= ds.getValue(Notification.class);
+                    FirebaseDatabase.getInstance().getReference("notification").child(notif.getNotifId()).setValue(null);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

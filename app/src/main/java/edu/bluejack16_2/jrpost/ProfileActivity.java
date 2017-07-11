@@ -25,6 +25,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     User currentUser;
     StoryViewAdapter adapter;
+    TextView nameTV;
+    Button btnFollow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,9 @@ public class ProfileActivity extends AppCompatActivity {
         currentUser = (User) intent.getSerializableExtra("user");
         //Toast.makeText(this, currentUser.getUserId(), Toast.LENGTH_SHORT).show();
 
-        TextView nameTV = (TextView) findViewById(R.id.lblName);
+        nameTV = (TextView) findViewById(R.id.lblName);
         adapter= new StoryViewAdapter();
-        final Button btnFollow = (Button) findViewById(R.id.btnFollow);
+        btnFollow = (Button) findViewById(R.id.btnFollow);
         FollowController.getInstance().checkFollowUser(btnFollow,currentUser.getUserId());
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,11 +73,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(ProfileActivity.this, story.getStoryTitle()+"", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), DetailStoryActivity.class);
                 try{
-//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                    ObjectOutputStream oos = new ObjectOutputStream(baos);
-//                    oos.writeObject(story);
-//                    byte[] buf = baos.toByteArray();
-//                    intent.putExtra("story", buf);
                     intent.putExtra("story", story.getStoryId());
                     startActivity(intent);
                 }catch (Exception e)

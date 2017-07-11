@@ -50,6 +50,7 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
             case SELECTED_PICTURE:
                 if(resultCode== Activity.RESULT_OK)
                 {
+                    imgProfile.setImageResource(android.R.color.transparent);
                     Uri uri = data.getData();
                     String[]projection={MediaStore.Images.Media.DATA};
                     Cursor cursor = getApplicationContext().getContentResolver().query(uri,projection,null,null,null);
@@ -107,6 +108,7 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
                 Log.d("Anjay 22",((Story)adapter.getItem(i)).getStoryId());
                 intent.putExtra("story", ((Story)adapter.getItem(i)).getStoryId());
                 startActivity(intent);
+                finish();
             }
         });
 

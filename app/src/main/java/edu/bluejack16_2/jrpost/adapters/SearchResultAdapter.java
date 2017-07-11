@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -73,7 +75,8 @@ public class SearchResultAdapter extends BaseAdapter{
 
         tvStoryTitle.setText(current.getStoryTitle());
         tvUsername.setText(current.getUser().getUsername());
-        //tvCreatedAt.setText(current.getCreatedAt().toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm - dd MMMM yyyy");
+        tvCreatedAt.setText(sdf.format(new Date(current.getCreatedAt())));
         tvGenre.setText(current.getStoryGenre());
         tvContent.setText(current.getStoryContent());
 

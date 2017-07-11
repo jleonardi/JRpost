@@ -2,6 +2,7 @@ package edu.bluejack16_2.jrpost;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -9,13 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import org.w3c.dom.Text;
 
 import edu.bluejack16_2.jrpost.controllers.FollowController;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 
 /**
@@ -29,6 +34,7 @@ public class DetailStoryFragment extends Fragment {
     TextView usernameTV;
     TextView genreTV;
     TextView contentTV;
+    ImageView imageView;
 
     public DetailStoryFragment() {
         // Required empty public constructor
@@ -46,12 +52,14 @@ public class DetailStoryFragment extends Fragment {
         genreTV = (TextView) view.findViewById(R.id.detailStoryGenre);
         contentTV = (TextView) view.findViewById(R.id.detailContentTV);
         followBtn = (Button) view.findViewById(R.id.detailFollowUserBtn);
+        imageView = (ImageView) view.findViewById(R.id.imageView4);
 
         currentStory = ((DetailStoryActivity)getActivity()).currentStory;
         titleTV.setText(currentStory.getStoryTitle());
         usernameTV.setText("By: " + currentStory.getUser().getUsername());
         genreTV.setText(currentStory.getStoryGenre());
         contentTV.setText(currentStory.getStoryContent());
+        Glide.with(getContext()).using(new FirebaseImageLoader()).load(currentStory.getImageRef()).into(imageView);
         try {
             if (Session.currentUser.getUserId().equals(currentStory.getUser().getUserId())) {
                 followBtn.setText("Update Story");
@@ -62,6 +70,7 @@ public class DetailStoryFragment extends Fragment {
                             Intent intent = new Intent(getContext(), UpdateStoryActivity.class);
                             intent.putExtra("storyId", currentStory.getStoryId());
                             startActivity(intent);
+                            getActivity().finish();
                         }catch(Exception e) {
                             Log.d("UpdateTag", e.getMessage());
                         }

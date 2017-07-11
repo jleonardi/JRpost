@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -91,7 +93,14 @@ public class UserController {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 user.setImage(true);
+                                Session.currentUser.setImage(true);
                                 mDatabase.child(userId).setValue(user);
+                                Log.d("UpdateGambar", "Sukses   ");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d("UpdateGambar", "Gagal");
                             }
                         });
                     }
@@ -218,6 +227,7 @@ public class UserController {
                     }
                     String userId = ds.child("userId").getValue().toString();
                     Session.currentUser = new User(userId, username, name, password);
+                    getProfilePicture();
 
                     if(password!=null) { //kalo je password a dak kosong (login biasa)
                         if (!password.equals(login_password)) //kalo password a dak same

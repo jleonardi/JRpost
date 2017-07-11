@@ -42,12 +42,13 @@ public class UpdateStoryActivity extends AppCompatActivity {
     Spinner spinGenre;
     private static final int SELECTED_PICTURE = 1;
     ImageView imgView;
-    Button btnChoose;
+    Button btnChoose, btnUpdate;
     String filePath = "";
     public ProgressDialog progressDialog;
     Uri fileURI;
     Story currentStory;
     ArrayList<String> genres = new ArrayList<>();
+    UpdateStoryActivity thisActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +57,11 @@ public class UpdateStoryActivity extends AppCompatActivity {
         fileURI = null;
         Intent intent = getIntent();
         String storyId = intent.getStringExtra("storyId");
+        progressDialog = new ProgressDialog(UpdateStoryActivity.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        thisActivity = this;
 
         try {
             txtStory = (EditText) findViewById(R.id.txtStory);
@@ -63,6 +69,28 @@ public class UpdateStoryActivity extends AppCompatActivity {
             spinGenre = (Spinner) findViewById(R.id.spinGenre);
             imgView = (ImageView) findViewById(R.id.imgView);
             btnChoose = (Button) findViewById(R.id.btnChoose);
+            btnUpdate = (Button) findViewById(R.id.updateBtn);
+
+            btnUpdate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String story = txtStory.getText().toString();
+                    String title = txtTitle.getText().toString();
+                    String genre = spinGenre.getSelectedItem().toString();
+                    if (story.length() == 0) {
+                        Toast.makeText(getApplicationContext(), "Story must be filled", Toast.LENGTH_SHORT).show();
+                    } else if (title.length() == 0) {
+                        Toast.makeText(getApplicationContext(), "Title of the Story must be filled", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //Update Here
+                        progressDialog = new ProgressDialog(UpdateStoryActivity.this);
+                        progressDialog.setMessage("Please wait");
+                        progressDialog.setCancelable(false);
+                        progressDialog.show();
+                        StoryController.getInstance().updateStory(currentStory.getStoryId(), title, story, genre, fileURI, thisActivity);
+                    }
+                }
+            });
 
             btnChoose.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,6 +129,7 @@ public class UpdateStoryActivity extends AppCompatActivity {
         txtStory.setText(currentStory.getStoryContent());
         spinGenre.setSelection(genres.indexOf(currentStory.getStoryGenre()));
         Glide.with(getApplicationContext()).using(new FirebaseImageLoader()).load(currentStory.getImageRef()).into(imgView);
+        progressDialog.dismiss();
     }
 
     @Override
@@ -130,6 +159,10 @@ public class UpdateStoryActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Title of the Story must be filled", Toast.LENGTH_SHORT).show();
                 } else {
                     //Update Here
+                    progressDialog = new ProgressDialog(UpdateStoryActivity.this);
+                    progressDialog.setMessage("Please wait");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
                     StoryController.getInstance().updateStory(currentStory.getStoryId(), title, story, genre, fileURI, this);
                 }
             }

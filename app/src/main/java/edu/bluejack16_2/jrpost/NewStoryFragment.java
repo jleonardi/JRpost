@@ -47,7 +47,7 @@ public class NewStoryFragment extends Fragment {
     private static final int SELECTED_PICTURE = 1;
     ImageView imgView;
     Button btnChoose;
-    String filePath;
+    String filePath = "";
     public ProgressDialog progressDialog;
     Uri fileURI;
     public NewStoryFragment() {
