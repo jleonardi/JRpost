@@ -55,6 +55,7 @@ public class SearchUserFragment extends Fragment {
                 User user = (User)userListAdapter.getItem(position);
                 Intent intent = new Intent(view.getContext(), ProfileActivity.class);
                 intent.putExtra("user", user);
+                intent.putExtra("userId", user.getUserId());
                 startActivity(intent);
             }
         });

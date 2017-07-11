@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
@@ -18,8 +21,10 @@ import edu.bluejack16_2.jrpost.adapters.StoryViewAdapter;
 import edu.bluejack16_2.jrpost.adapters.UserStoryListAdapter;
 import edu.bluejack16_2.jrpost.controllers.FollowController;
 import edu.bluejack16_2.jrpost.controllers.StoryController;
+import edu.bluejack16_2.jrpost.controllers.UserController;
 import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.models.User;
+import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -27,18 +32,15 @@ public class ProfileActivity extends AppCompatActivity {
     StoryViewAdapter adapter;
     TextView nameTV;
     Button btnFollow;
+    ImageView imgView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
-        Intent intent = getIntent();
-        currentUser = (User) intent.getSerializableExtra("user");
-        //Toast.makeText(this, currentUser.getUserId(), Toast.LENGTH_SHORT).show();
-
+    public void doneReadUser(User user) {
+        currentUser = user;
         nameTV = (TextView) findViewById(R.id.lblName);
         adapter= new StoryViewAdapter();
         btnFollow = (Button) findViewById(R.id.btnFollow);
+        imgView = (ImageView) findViewById(R.id.imageView);
+        Glide.with(this).using(new FirebaseImageLoader()).load(currentUser.getImageRef()).into(imgView);
         FollowController.getInstance().checkFollowUser(btnFollow,currentUser.getUserId());
         btnFollow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,13 +77,24 @@ public class ProfileActivity extends AppCompatActivity {
                 try{
                     intent.putExtra("story", story.getStoryId());
                     startActivity(intent);
-                }catch (Exception e)
-                {
+                }catch (Exception e) {
                     Toast.makeText(ProfileActivity.this, e+"", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
+        Intent intent = getIntent();
+        String userId = intent.getStringExtra("userId");
+        UserController.getInstance().getUserProfile(userId, this);
+        //currentUser = (User) intent.getSerializableExtra("user");
+        //Toast.makeText(this, currentUser.getUserId(), Toast.LENGTH_SHORT).show();
+
+
 
     }
 }

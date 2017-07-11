@@ -24,8 +24,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import edu.bluejack16_2.jrpost.CurrentUserProfileActivity;
 import edu.bluejack16_2.jrpost.LoginActivity;
 import edu.bluejack16_2.jrpost.MainActivity;
+import edu.bluejack16_2.jrpost.ProfileActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
 import edu.bluejack16_2.jrpost.adapters.UserListAdapter;
 import edu.bluejack16_2.jrpost.models.Session;
@@ -116,13 +118,15 @@ public class UserController {
 
     public void getProfilePicture()
     {
-        if(Session.currentUser.getImage()==true)
+        if(Session.currentUser.getImage())
         {
             Session.currentUser.setImageRef(storageRef.child(Session.currentUser.getUserId()));
+            Log.d("ProfImg", "Ketemu");
         }
         else
         {
             Session.currentUser.setImageRef(storageRef.child("noimage.png"));
+            Log.d("ProfImg", "Tidak Ketemu");
         }
 
     }
@@ -226,7 +230,9 @@ public class UserController {
                         password=null;
                     }
                     String userId = ds.child("userId").getValue().toString();
-                    Session.currentUser = new User(userId, username, name, password);
+                    User getUser = ds.getValue(User.class);
+                    //Session.currentUser = new User(userId, username, name, password);
+                    Session.currentUser = getUser;
                     getProfilePicture();
 
                     if(password!=null) { //kalo je password a dak kosong (login biasa)
@@ -249,6 +255,52 @@ public class UserController {
                 }
                 Toast.makeText(activity, "You are not registered as member, Please Register!", Toast.LENGTH_SHORT).show();
                 LoginActivity.progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getUserProfile(String userId, final ProfileActivity activity){
+        Query userQuery = mDatabase.orderByChild("userId").equalTo(userId);
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if(user.getImage()){
+                        user.setImageRef(storageRef.child(user.getUserId()));
+                    } else {
+                        user.setImageRef(storageRef.child("noimage.png"));
+                    }
+                    activity.doneReadUser(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getCurrentUser(String userId, final CurrentUserProfileActivity activity) {
+        Query userQuery = mDatabase.orderByChild("userId").equalTo(userId);
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if(user.getImage()){
+                        user.setImageRef(storageRef.child(user.getUserId()));
+                    } else {
+                        user.setImageRef(storageRef.child("noimage.png"));
+                    }
+                    activity.doneReadUser(user);
+                }
             }
 
             @Override

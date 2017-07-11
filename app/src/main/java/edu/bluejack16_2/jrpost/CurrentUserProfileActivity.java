@@ -29,6 +29,7 @@ import edu.bluejack16_2.jrpost.controllers.StoryController;
 import edu.bluejack16_2.jrpost.controllers.UserController;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
+import edu.bluejack16_2.jrpost.models.User;
 import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 public class CurrentUserProfileActivity extends AppCompatActivity {
@@ -42,6 +43,48 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
     private static final int SELECTED_PICTURE = 1;
     String filePath;
     Uri fileURI;
+    User currentUser;
+
+    public void doneReadUser(User user) {
+        currentUser = user;
+        lblName= (TextView) findViewById(R.id.lblName);
+        lblName.setText(currentUser.getName());
+        lblUsername= (TextView) findViewById(R.id.lblUsername);
+        lblUsername.setText(currentUser.getUsername());
+        imgProfile= (ImageView) findViewById(R.id.imgProfile);
+        UserController.getInstance().getProfilePicture();
+        Glide.with(getApplicationContext()).using(new FirebaseImageLoader()).load(currentUser.getImageRef()).into(imgProfile);
+
+        listViewProf= (ListView) findViewById(R.id.listViewProf);
+
+        btnChangeProfile= (Button) findViewById(R.id.btnChangePhoto);
+        btnChangeProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent,SELECTED_PICTURE);
+            }
+        });
+
+
+        final CurrentProfileAdapter adapter= new CurrentProfileAdapter(getApplicationContext());
+        StoryController.getInstance().getStoryOnUserId(currentUser.getUserId(),adapter);
+
+        listViewProf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(view.getContext(), DetailStoryActivity.class);
+                Log.d("Anjay 22",((Story)adapter.getItem(i)).getStoryId());
+                intent.putExtra("story", ((Story)adapter.getItem(i)).getStoryId());
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        listViewProf.setAdapter(adapter);
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -78,40 +121,6 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_user_profile);
 
-        lblName= (TextView) findViewById(R.id.lblName);
-        lblName.setText(Session.currentUser.getName());
-        lblUsername= (TextView) findViewById(R.id.lblUsername);
-        lblUsername.setText(Session.currentUser.getUsername());
-        imgProfile= (ImageView) findViewById(R.id.imgProfile);
-        UserController.getInstance().getProfilePicture();
-        Glide.with(getApplicationContext()).using(new FirebaseImageLoader()).load(Session.currentUser.getImageRef()).into(imgProfile);
-
-        listViewProf= (ListView) findViewById(R.id.listViewProf);
-
-        btnChangeProfile= (Button) findViewById(R.id.btnChangePhoto);
-        btnChangeProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent,SELECTED_PICTURE);
-            }
-        });
-
-
-        final CurrentProfileAdapter adapter= new CurrentProfileAdapter(getApplicationContext());
-        StoryController.getInstance().getStoryOnUserId(Session.currentUser.getUserId(),adapter);
-
-        listViewProf.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(view.getContext(), DetailStoryActivity.class);
-                Log.d("Anjay 22",((Story)adapter.getItem(i)).getStoryId());
-                intent.putExtra("story", ((Story)adapter.getItem(i)).getStoryId());
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        listViewProf.setAdapter(adapter);
+        UserController.getInstance().getCurrentUser(Session.currentUser.getUserId(), this);
     }
 }
