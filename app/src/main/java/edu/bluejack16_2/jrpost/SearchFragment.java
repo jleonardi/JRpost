@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -24,7 +25,6 @@ public class SearchFragment extends Fragment {
 
     public SearchFragment() {
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

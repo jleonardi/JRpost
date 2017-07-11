@@ -87,7 +87,7 @@ public class CommentDetailStoryFragment extends Fragment {
                     //CommentController.getInstance().populateComments(commentListAdapter, currentStory.getStoryId());
                     //commentListView.setAdapter(commentListAdapter);
                     CommentController.getInstance().addComment(currentStory.getStoryId(), addComentTxt.getText().toString(), commentListAdapter);
-                    NotificationController.getInstance().addNotif("Commented on your story", Session.currentUser.getUserId(), currentStory.getCurrentUser());
+                    NotificationController.getInstance().addNotif("Commented on your story", Session.currentUser.getUserId(), currentStory.getCurrentUser(), currentStory.getStoryId());
                     addComentTxt.setText("");
                 }
             }

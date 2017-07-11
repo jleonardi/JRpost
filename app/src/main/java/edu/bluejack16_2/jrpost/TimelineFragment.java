@@ -43,11 +43,17 @@ public class TimelineFragment extends Fragment {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getActivity().setTitle("New Story");
-                    NewStoryFragment newStoryFragment= new NewStoryFragment();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frameLayout,newStoryFragment);
-                    fragmentTransaction.commit();
+                    try {
+                        //getActivity().setTitle("New Story");
+                        NewStoryFragment newStoryFragment = new NewStoryFragment();
+                        android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.frameLayout, newStoryFragment);
+                        fragmentTransaction.commit();
+                    } catch(Exception e) {
+                        Log.d("TestErr", e.getMessage());
+                    }
+
+
                 }
             });
             ListView storyListView = (ListView) view.findViewById(R.id.storyListView);

@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
@@ -26,6 +27,7 @@ public class TranslateChoiceActivity extends AppCompatActivity {
     Button translateButton;
     String text;
     TranslateChoiceActivity thisActivity;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +38,22 @@ public class TranslateChoiceActivity extends AppCompatActivity {
         toLanguageSpinner = (Spinner) findViewById(R.id.toLanguageSpinner);
         fromLanguageSpinner = (Spinner) findViewById(R.id.fromLanguageSpinner);
         translateButton = (Button) findViewById(R.id.translateBtn);
+        progressDialog = new ProgressDialog(TranslateChoiceActivity.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
         new ReadAvailableLanguageTask(this).execute("https://translate.yandex.net/api/v1.5/tr.json/getLangs?ui=en&key=trnsl.1.1.20170708T103845Z.6169a37cb6e16ce5.54e011c42b5573f742cfb006014bf678ca1ffd77");
     }
 
     public void doneTranslating(String translateResult){
+        progressDialog.dismiss();
         Intent intent = new Intent(getApplicationContext(), TranslateResultActivity.class);
 
         intent.putExtra("translateResult", translateResult);
 
         startActivity(intent);
+        finish();
     }
 
     public void doneReading(String[] codeLanguages) {
@@ -121,8 +129,14 @@ public class TranslateChoiceActivity extends AppCompatActivity {
                             "&lang=" + lang;
                     Log.e("TranslateBtn", url);
                     new TranslateStoryTask(thisActivity).execute(url, text);
+                    progressDialog = new ProgressDialog(TranslateChoiceActivity.this);
+                    progressDialog.setMessage("Please wait");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+
                 }
             });
+            progressDialog.dismiss();
         } catch(Exception e){
             Log.e("Spinner Problem", e.getMessage());
         }

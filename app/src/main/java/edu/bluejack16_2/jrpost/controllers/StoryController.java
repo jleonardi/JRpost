@@ -326,6 +326,7 @@ public class StoryController {
                                             User usr = ds.getValue(User.class);
                                             story.setUser(usr);
                                             adapter.addStory(story);
+                                            adapter.sortByDate();
                                             adapter.notifyDataSetChanged();
                                         }
                                     }

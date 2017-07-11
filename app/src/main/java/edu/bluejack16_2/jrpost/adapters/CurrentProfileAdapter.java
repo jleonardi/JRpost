@@ -2,6 +2,8 @@ package edu.bluejack16_2.jrpost.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,7 @@ public class CurrentProfileAdapter extends BaseAdapter {
 
         TextView lblTitle = (TextView) convertView.findViewById(R.id.lblTitle);
         lblTitle.setText(stories.get(position).getStoryTitle());
+        lblTitle.setTextColor(Color.BLACK);
 
         return convertView;
     }

@@ -21,11 +21,14 @@ import java.util.Date;
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Story;
 import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
+import edu.bluejack16_2.jrpost.utilities.StoryDateComparator;
+import edu.bluejack16_2.jrpost.utilities.StoryLikersComparator;
 
 /**
  * Created by User on 6/21/2017.
  */
 
+@SuppressWarnings("Since15")
 public class StoryViewAdapter extends BaseAdapter {
 
     ArrayList<Story> stories;
@@ -65,7 +68,11 @@ public class StoryViewAdapter extends BaseAdapter {
 
     public void sortByLike()
     {
-        Collections.sort(stories);
+        Collections.sort(stories, new StoryLikersComparator());
+    }
+
+    public void sortByDate() {
+        Collections.sort(stories, new StoryDateComparator());
     }
 
     public void clearStory() {

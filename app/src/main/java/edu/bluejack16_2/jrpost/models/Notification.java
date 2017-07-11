@@ -9,8 +9,10 @@ public class Notification {
     private String from;
     private String userId;
     private String notifId;
+    private String storyId;
     private String type;
     private Long date;
+    private User fromUser;
 
     public String getContent() {
         return content;
@@ -83,5 +85,21 @@ public class Notification {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getStoryId() {
+        return storyId;
+    }
+
+    public void setStoryId(String storyId) {
+        this.storyId = storyId;
+    }
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
     }
 }

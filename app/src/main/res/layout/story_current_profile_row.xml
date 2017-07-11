@@ -12,15 +12,16 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_toEndOf="@id/imgStory">
+
         <TextView
+            android:id="@+id/lblTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Judul Storynya"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/lblTitle"
-            android:layout_toEndOf="@id/imgStory"
             android:layout_centerVertical="true"
-            />
+            android:layout_marginLeft="10dp"
+            android:layout_toEndOf="@id/imgStory"
+            android:text="Judul Storynya"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
     </RelativeLayout>
 
     <RelativeLayout

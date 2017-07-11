@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,7 @@ public class DetailStoryActivity extends AppCompatActivity {
     TabLayoutAdapter adapter;
     Story currentStory;
     Menu menu;
+    ProgressDialog progressDialog;
 
     public void addStory(Story story) {
         //currentStory = (Story)ois.readObject();
@@ -42,6 +44,7 @@ public class DetailStoryActivity extends AppCompatActivity {
         adapter.add(new CommentDetailStoryFragment(),"Comment");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+        progressDialog.dismiss();
     }
 
     @Override
@@ -59,6 +62,7 @@ public class DetailStoryActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), TranslateChoiceActivity.class);
                     intent.putExtra("content", currentStory.getStoryContent());
                     startActivity(intent);
+                    finish();
                 }
             }
         } catch (Exception e) {
@@ -78,6 +82,10 @@ public class DetailStoryActivity extends AppCompatActivity {
 //            ByteArrayInputStream bais = new ByteArrayInputStream(buf);
 //            ObjectInputStream ois = new ObjectInputStream(bais);
             String storyId = intent.getStringExtra("story");
+            progressDialog = new ProgressDialog(DetailStoryActivity.this);
+            progressDialog.setMessage("Please wait");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
             StoryController.getInstance().getStoryOnId(storyId, this);
 
         }catch (Exception e)

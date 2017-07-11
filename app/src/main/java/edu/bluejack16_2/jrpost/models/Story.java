@@ -15,7 +15,7 @@ import java.util.Date;
  * Created by User on 6/20/2017.
  */
 
-public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
+public class Story implements Serializable{
     private String storyId;
     private String storyTitle;
     private String storyContent;
@@ -24,7 +24,6 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
     private Long createdAt;
     private User user;
     private ArrayList<String> likers;
-    private Integer totalLikes;
     private Boolean image;
     private StorageReference imageRef;
 
@@ -37,7 +36,6 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
         this.currentUser = currentUser;
         this.createdAt = createdAt;
         likers = new ArrayList<>();
-        totalLikes = 0;
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre, String currentUser) {
@@ -49,7 +47,6 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
         this.currentUser = currentUser;
         this.createdAt = System.currentTimeMillis();
         likers = new ArrayList<>();
-        totalLikes = 0;
     }
 
     public Story(String storyId, String storyTitle, String storyContent, String storyGenre) {
@@ -61,7 +58,6 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
         this.currentUser = Session.currentUser.getUserId();
         this.createdAt = System.currentTimeMillis();
         likers = new ArrayList<>();
-        totalLikes = 0;
     }
 
     public Story()   {
@@ -149,14 +145,6 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
         return likers.size();
     }
 
-    public Integer getTotalLikes() {
-        return totalLikes;
-    }
-
-    public void setTotalLikes(Integer totalLikes) {
-        this.totalLikes = totalLikes;
-    }
-
     public Boolean getImage() {
         return image;
     }
@@ -172,14 +160,14 @@ public class Story implements Serializable,Comparator<Story>,Comparable<Story>{
     public void setImageRef(StorageReference imageRef) {
         this.imageRef = imageRef;
     }
-
-    @Override
-    public int compare(Story story, Story t1) {
-        return story.getLikersCount()-t1.getLikersCount();
-    }
-
-    @Override
-    public int compareTo(@NonNull Story story) {
-        return 0;
-    }
+//
+//    @Override
+//    public int compare(Story story, Story t1) {
+//        return story.getLikersCount()-t1.getLikersCount();
+//    }
+//
+//    @Override
+//    public int compareTo(@NonNull Story story) {
+//        return 0;
+//    }
 }

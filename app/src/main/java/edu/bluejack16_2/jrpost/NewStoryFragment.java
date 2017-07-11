@@ -117,6 +117,14 @@ public class NewStoryFragment extends Fragment {
             spinGenre.setAdapter(adapter);
             final NewStoryFragment fragment = this;
 
+            FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+
             Button btnAdd = (Button) view.findViewById(R.id.btnAdd);
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -145,7 +153,7 @@ public class NewStoryFragment extends Fragment {
                         Toast.makeText(view.getContext(), "Your Story has been published", Toast.LENGTH_SHORT).show();
 
                         //selesai add story balik ke timeline
-                        getActivity().setTitle("Timeline");
+                        //getActivity().setTitle("Timeline");
                         TimelineFragment timelineFragment= new TimelineFragment();
                         android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                         fragmentTransaction.replace(R.id.frameLayout,timelineFragment);

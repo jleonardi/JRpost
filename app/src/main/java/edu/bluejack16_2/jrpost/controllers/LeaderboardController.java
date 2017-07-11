@@ -62,6 +62,7 @@ public class LeaderboardController {
                                     User usr = ds.getValue(User.class);
                                     story.setUser(usr);
                                     adapter.addStory(story);
+                                    adapter.sortByLike();
                                     adapter.notifyDataSetChanged();
                                 }
                             }
@@ -72,6 +73,9 @@ public class LeaderboardController {
                             }
                         });
                     }
+                    //adapter.sortByLike();
+                    //adapter.notifyDataSetChanged();
+
                 } catch(Exception e) {
                     Log.d("Leaderboard Error", e.getMessage());
                 }

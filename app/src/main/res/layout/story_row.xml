@@ -90,6 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linearLayout3"
         android:text="@string/lorem50"
+        android:maxHeight="125dp"
         android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <View

@@ -10,6 +10,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat"
         tools:text="Dari siapa" />
 
     <TextView
@@ -19,7 +20,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/lblFrom"
         android:layout_marginTop="13dp"
-        android:text="Notifnya apa" />
+        android:text="Notifnya apa"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 
     <TextView
         android:id="@+id/lblDate"
@@ -27,5 +29,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:text="Tanggal Notifnya" />
+        android:text="Tanggal Notifnya"
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 </RelativeLayout>

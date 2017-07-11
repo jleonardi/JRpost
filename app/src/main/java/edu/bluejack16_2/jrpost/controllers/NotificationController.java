@@ -10,6 +10,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import edu.bluejack16_2.jrpost.adapters.NotifViewAdapter;
 import edu.bluejack16_2.jrpost.models.Notification;
+import edu.bluejack16_2.jrpost.models.User;
 
 /**
  * Created by RE on 6/24/2017.
@@ -30,25 +31,41 @@ public class NotificationController {
         this.mDatabase = FirebaseDatabase.getInstance().getReference("notification");
     }
 
-    public void addNotif(String content,String from,String userId)
+    public void addNotif(String content,String from,String userId, String storyId)
     {
         String notifId=mDatabase.push().getKey();
         Notification notif = new Notification(content, from, userId, notifId);
+        notif.setStoryId(storyId);
         mDatabase.child(notifId).setValue(notif);
-
     }
 
     public void getNotif(String userId,final NotifViewAdapter adapter)
     {
         Query query = FirebaseDatabase.getInstance().getReference().child("notification").orderByChild("userId").equalTo(userId);
 
-        query.addValueEventListener(new ValueEventListener() {
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                    Notification notif = ds.getValue(Notification.class);
-                    adapter.add(notif);
-                    adapter.notifyDataSetChanged();
+                    final Notification notif = ds.getValue(Notification.class);
+                    Query userRef = FirebaseDatabase.getInstance().getReference("users").orderByChild("userId").equalTo(notif.getFrom());
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                                User user = ds.getValue(User.class);
+                                notif.setFromUser(user);
+                                adapter.add(notif);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
             }
 

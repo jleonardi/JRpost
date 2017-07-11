@@ -42,7 +42,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.bluejack16_2.jrpost.R;
 import edu.bluejack16_2.jrpost.models.Notification;
@@ -89,10 +91,11 @@ public class NotifViewAdapter extends BaseAdapter {
         TextView lblNotif = (TextView) convertView.findViewById(R.id.lblNotif);
         TextView lblDate = (TextView) convertView.findViewById(R.id.lblDate);
         TextView lblFrom = (TextView) convertView.findViewById(R.id.lblFrom);
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm - dd MMMM yyyy");
 
         lblNotif.setText(notifications.get(i).getContent());
-        lblFrom.setText(notifications.get(i).getFrom());
-        lblDate.setText(notifications.get(i).getDate().toString());
+        lblFrom.setText(notifications.get(i).getFromUser().getUsername());
+        lblDate.setText(sdf.format(new Date(notifications.get(i).getDate())));
 
         return convertView;
     }
