@@ -20,10 +20,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import edu.bluejack16_2.jrpost.controllers.UserController;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.User;
+import edu.bluejack16_2.jrpost.utilities.FirebaseImageLoader;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -32,13 +35,19 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar=null;
     User currentUser;
     SharedPreferences prefs;
+    ImageView profPic;
+
     public static FloatingActionButton fab;
+
+    public void setPicture(User user) {
+        Glide.with(getApplicationContext()).using(new FirebaseImageLoader()).load(Session.currentUser.getImageRef()).into(profPic);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("Token", FirebaseInstanceId.getInstance().getToken());
+        //Log.d("Token", FirebaseInstanceId.getInstance().getToken());
         //set fragment awal
         setTitle("Timeline");
         TimelineFragment timelineFragment= new TimelineFragment();
@@ -74,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         //set name di header a user yang lagi login
         View headerView = navigationView.getHeaderView(0);
-        ImageView profPic = (ImageView) headerView.findViewById(R.id.imageView);
+        profPic = (ImageView) headerView.findViewById(R.id.imageView);
         profPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

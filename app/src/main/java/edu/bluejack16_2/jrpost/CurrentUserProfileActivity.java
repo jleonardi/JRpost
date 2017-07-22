@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -44,6 +45,7 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
     String filePath;
     Uri fileURI;
     User currentUser;
+    ProgressDialog progressDialog;
 
     public void doneReadUser(User user) {
         currentUser = user;
@@ -82,6 +84,7 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
         });
 
         listViewProf.setAdapter(adapter);
+        progressDialog.dismiss();
     }
 
 
@@ -120,7 +123,10 @@ public class CurrentUserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_current_user_profile);
-
+        progressDialog = new ProgressDialog(CurrentUserProfileActivity.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
         UserController.getInstance().getCurrentUser(Session.currentUser.getUserId(), this);
     }
 }

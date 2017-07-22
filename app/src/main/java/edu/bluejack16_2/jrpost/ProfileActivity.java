@@ -1,5 +1,6 @@
 package edu.bluejack16_2.jrpost;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -33,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView nameTV;
     Button btnFollow;
     ImageView imgView;
+    ProgressDialog progressDialog;
 
     public void doneReadUser(User user) {
         currentUser = user;
@@ -82,6 +84,8 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
+
+        progressDialog.dismiss();
     }
 
     @Override
@@ -93,7 +97,10 @@ public class ProfileActivity extends AppCompatActivity {
         UserController.getInstance().getUserProfile(userId, this);
         //currentUser = (User) intent.getSerializableExtra("user");
         //Toast.makeText(this, currentUser.getUserId(), Toast.LENGTH_SHORT).show();
-
+        progressDialog = new ProgressDialog(ProfileActivity.this);
+        progressDialog.setMessage("Please wait");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
 
 
     }

@@ -128,7 +128,6 @@ public class UserController {
             Session.currentUser.setImageRef(storageRef.child("noimage.png"));
             Log.d("ProfImg", "Tidak Ketemu");
         }
-
     }
 
 
@@ -230,9 +229,9 @@ public class UserController {
                         password=null;
                     }
                     String userId = ds.child("userId").getValue().toString();
-                    User getUser = ds.getValue(User.class);
-                    //Session.currentUser = new User(userId, username, name, password);
-                    Session.currentUser = getUser;
+                    //User getUser = ds.getValue(User.class);
+                    Session.currentUser = new User(userId, username, name, password);
+                    //Session.currentUser = getUser;
                     getProfilePicture();
 
                     if(password!=null) { //kalo je password a dak kosong (login biasa)
@@ -300,6 +299,29 @@ public class UserController {
                         user.setImageRef(storageRef.child("noimage.png"));
                     }
                     activity.doneReadUser(user);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setActivityPicture(String userId, final MainActivity activity) {
+        Query userQuery = mDatabase.orderByChild("userId").equalTo(userId);
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                    User user = ds.getValue(User.class);
+                    if(user.getImage()){
+                        user.setImageRef(storageRef.child(user.getUserId()));
+                    } else {
+                        user.setImageRef(storageRef.child("noimage.png"));
+                    }
+                    activity.setPicture(user);
                 }
             }
 
