@@ -37,18 +37,28 @@
             android:layout_marginLeft="5dp"/>
     </LinearLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linearLayout"
+        android:id="@+id/layoutSpinner"
+        android:background="@drawable/border_combo_box">
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cmbGenre"
-        android:layout_below="@id/linearLayout"
-        android:entries="@array/optCmbGenre"></Spinner>
+        android:entries="@array/optCmbGenre"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        ></Spinner>
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/searchResultListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/cmbGenre"
+        android:layout_below="@id/layoutSpinner"
         android:layout_margin="10dp"/>-->
 
 </RelativeLayout>

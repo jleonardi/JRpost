@@ -12,35 +12,50 @@
         android:layout_height="wrap_content"
         android:text="From :"
         android:id="@+id/lbl1"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_combo_box"
+        android:id="@+id/layoutSpinnerFrom"
+        android:layout_below="@+id/lbl1">
     <Spinner
         android:id="@+id/fromLanguageSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lbl1"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:minHeight="40dp"
         android:layout_alignParentStart="true" />
-
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="To :"
         android:id="@+id/lbl2"
-        android:layout_below="@id/fromLanguageSpinner"/>
+        android:layout_below="@id/layoutSpinnerFrom"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lbl2"
+        android:id="@+id/layoutSpinnerTo"
+        android:background="@drawable/border_combo_box">
     <Spinner
         android:id="@+id/toLanguageSpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/lbl2"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
         android:layout_alignParentStart="true"
         android:minHeight="40dp"/>
-
+    </RelativeLayout>
     <Button
         android:id="@+id/translateBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Translate"
-        android:layout_below="@+id/toLanguageSpinner"
+        android:layout_below="@+id/layoutSpinnerTo"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -105,16 +105,6 @@ public class NewStoryFragment extends Fragment {
                     startActivityForResult(intent,SELECTED_PICTURE);
                 }
             });
-
-            ArrayList<String> genres = new ArrayList<>();
-            genres.add("Drama");
-            genres.add("Comedy");
-            genres.add("Fantasy");
-            genres.add("Mystery");
-            genres.add("Horror");
-            genres.add("Thriller");
-            adapter=new ArrayAdapter(view.getContext(),android.R.layout.simple_list_item_1,genres);
-            spinGenre.setAdapter(adapter);
             final NewStoryFragment fragment = this;
 
             FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
