@@ -29,6 +29,7 @@ import edu.bluejack16_2.jrpost.LoginActivity;
 import edu.bluejack16_2.jrpost.MainActivity;
 import edu.bluejack16_2.jrpost.ProfileActivity;
 import edu.bluejack16_2.jrpost.RegisterActivity;
+import edu.bluejack16_2.jrpost.SearchUserFragment;
 import edu.bluejack16_2.jrpost.adapters.UserListAdapter;
 import edu.bluejack16_2.jrpost.models.Session;
 import edu.bluejack16_2.jrpost.models.Story;
@@ -151,8 +152,9 @@ public class UserController {
                     editor.putString("name",name);
                     editor.putString("username",username);
                     editor.commit();
-                    addNewUser(username,name,password);
                     Session.currentUser=new User(username,name,password);
+                    addNewUser(username,name,password);
+
 
                     Toast.makeText(activity, "Succesfully Register", Toast.LENGTH_SHORT).show();
 
@@ -169,7 +171,7 @@ public class UserController {
         });
     }
 
-    public void searchUser(final UserListAdapter adapter, final String searchPattern) {
+    public void searchUser(final UserListAdapter adapter, final String searchPattern, final SearchUserFragment fragment) {
 
         Query userRef = mDatabase;
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -182,6 +184,7 @@ public class UserController {
                         adapter.notifyDataSetChanged();
                     }
                 }
+                fragment.progressDialog.dismiss();
             }
 
             @Override
@@ -203,6 +206,7 @@ public class UserController {
         * */
         //mDatabase.child("users").push().setValue(newUser);
         mDatabase.child(newUserId).setValue(newUser);
+        Session.currentUser.setUserId(newUserId);
         return true;
     }
 

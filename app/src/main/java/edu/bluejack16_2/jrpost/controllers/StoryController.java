@@ -27,6 +27,7 @@ import edu.bluejack16_2.jrpost.CommentDetailStoryFragment;
 import edu.bluejack16_2.jrpost.DetailStoryActivity;
 import edu.bluejack16_2.jrpost.DetailStoryFragment;
 import edu.bluejack16_2.jrpost.NewStoryFragment;
+import edu.bluejack16_2.jrpost.SearchStoryFragment;
 import edu.bluejack16_2.jrpost.TimelineFragment;
 import edu.bluejack16_2.jrpost.UpdateStoryActivity;
 import edu.bluejack16_2.jrpost.adapters.CurrentProfileAdapter;
@@ -155,9 +156,9 @@ public class StoryController {
         });
     }
 
-    public void getStoryOnSearchTitle(final SearchResultAdapter adapter, final String searchPattern, final String genre){
+    public void getStoryOnSearchTitle(final SearchResultAdapter adapter, final String searchPattern, final String genre, final SearchStoryFragment fragment){
         Query storyRef = FirebaseDatabase.getInstance().getReference().child("stories");
-        storyRef.addValueEventListener(new ValueEventListener() {
+        storyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds: dataSnapshot.getChildren()) {
@@ -195,6 +196,7 @@ public class StoryController {
                         });
                     }
                 }
+                fragment.progressDialog.dismiss();
             }
 
             @Override
@@ -297,7 +299,7 @@ public class StoryController {
 
     public void getStoryOnFollowedUser(final StoryViewAdapter adapter, final TimelineFragment fragment) {
         Query followedUserRef = FirebaseDatabase.getInstance().getReference().child("followUsers").orderByChild("userId").equalTo(Session.currentUser.getUserId());
-        followedUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        followedUserRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 

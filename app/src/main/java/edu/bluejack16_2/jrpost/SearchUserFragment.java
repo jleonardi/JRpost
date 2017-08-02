@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,8 @@ import edu.bluejack16_2.jrpost.models.User;
 public class SearchUserFragment extends Fragment {
 
 
+    public ProgressDialog progressDialog;
+    SearchUserFragment current;
     public SearchUserFragment() {
         // Required empty public constructor
     }
@@ -33,8 +36,8 @@ public class SearchUserFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search_user, container, false);
-
+        final View view = inflater.inflate(R.layout.fragment_search_user, container, false);
+        current = this;
         Button searchBTN = (Button) view.findViewById(R.id.btnSearch);
         final EditText searchTV = (EditText) view.findViewById(R.id.txtSearch);
         ListView searchResultListView = (ListView) view.findViewById(R.id.listViewSearchUser);
@@ -45,7 +48,11 @@ public class SearchUserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 userListAdapter.clearUser();
-                UserController.getInstance().searchUser(userListAdapter, searchTV.getText().toString());
+                progressDialog = new ProgressDialog(view.getContext());
+                progressDialog.setMessage("Please wait");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                UserController.getInstance().searchUser(userListAdapter, searchTV.getText().toString(), current);
             }
         });
 

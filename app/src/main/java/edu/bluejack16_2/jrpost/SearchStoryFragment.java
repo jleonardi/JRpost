@@ -1,6 +1,7 @@
 package edu.bluejack16_2.jrpost;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,6 +32,8 @@ public class SearchStoryFragment extends Fragment {
     Button searchBtn;
     EditText txtSearch;
     Spinner cmbGenre;
+    public ProgressDialog progressDialog;
+    SearchStoryFragment current;
     public SearchStoryFragment() {
         // Required empty public constructor
     }
@@ -39,11 +42,12 @@ public class SearchStoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment'
+        // Inflate the layout for this fragment'r
         final View view = inflater.inflate(R.layout.fragment_search_story, container, false);
         searchBtn= (Button)view.findViewById(R.id.btnSearch);
         txtSearch = (EditText) view.findViewById(R.id.txtSearch);
         cmbGenre = (Spinner) view.findViewById(R.id.cmbGenre);
+        current = this;
         ListView listViewUser = (ListView) view.findViewById(R.id.searchResultListView);
         final SearchResultAdapter searchResultAdapter= new SearchResultAdapter(view.getContext());
         ListView searchResultListView = (ListView) view.findViewById(R.id.searchResultListView);
@@ -54,7 +58,11 @@ public class SearchStoryFragment extends Fragment {
                 String genre = cmbGenre.getSelectedItem().toString();
                 searchResultAdapter.clearAll();
                 searchResultAdapter.notifyDataSetChanged();
-                StoryController.getInstance().getStoryOnSearchTitle(searchResultAdapter, txtSearch.getText().toString(),genre);
+                progressDialog = new ProgressDialog(view.getContext());
+                progressDialog.setMessage("Please wait");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
+                StoryController.getInstance().getStoryOnSearchTitle(searchResultAdapter, txtSearch.getText().toString(),genre, current);
             }
         });
 
